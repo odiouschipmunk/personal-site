@@ -1,0 +1,317 @@
+@font-face {
+    font-family: 'Minecraft';
+    src: url('assets/Minecraft.ttf') format('truetype');
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Minecraft', monospace;
+    background: linear-gradient(45deg, #0a0a0a, #1a1a2e, #16213e);
+    color: #00ff00;
+    overflow: hidden;
+    height: 100vh;
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+}
+
+.container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle at center, #1a1a2e 0%, #0a0a0a 100%);
+}
+
+/* Background Effects */
+.background-waves {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('assets/wave.png');
+    background-repeat: repeat;
+    background-size: 200px;
+    opacity: 0.1;
+    animation: waveMove 20s linear infinite;
+    z-index: -1;
+}
+
+@keyframes waveMove {
+    0% { background-position: 0 0; }
+    100% { background-position: 200px 200px; }
+}
+
+/* Header */
+.header {
+    text-align: center;
+    margin-bottom: 40px;
+    animation: glow 2s ease-in-out infinite alternate;
+}
+
+.title {
+    font-size: 4rem;
+    color: #ff00ff;
+    text-shadow: 
+        0 0 10px #ff00ff,
+        0 0 20px #ff00ff,
+        0 0 30px #ff00ff;
+    letter-spacing: 8px;
+    margin-bottom: 10px;
+    animation: pulse 2s infinite;
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    color: #00ffff;
+    text-shadow: 0 0 10px #00ffff;
+    letter-spacing: 3px;
+}
+
+@keyframes glow {
+    from { text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 30px #ff00ff; }
+    to { text-shadow: 0 0 20px #ff00ff, 0 0 30px #ff00ff, 0 0 40px #ff00ff; }
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+/* Avatar Section */
+.avatar-section {
+    margin-bottom: 40px;
+    animation: float 3s ease-in-out infinite;
+}
+
+.avatar {
+    width: 120px;
+    height: 120px;
+    border: 3px solid #00ff00;
+    border-radius: 50%;
+    box-shadow: 
+        0 0 20px #00ff00,
+        inset 0 0 20px rgba(0, 255, 0, 0.2);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    image-rendering: pixelated;
+}
+
+.avatar:hover {
+    transform: scale(1.1);
+    box-shadow: 
+        0 0 30px #00ff00,
+        inset 0 0 30px rgba(0, 255, 0, 0.3);
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+/* Menu Buttons */
+.menu {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.menu-btn {
+    font-family: 'Minecraft', monospace;
+    font-size: 1.4rem;
+    padding: 15px 40px;
+    background: linear-gradient(45deg, #1a1a2e, #16213e);
+    color: #00ffff;
+    border: 3px solid #00ffff;
+    border-radius: 0;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    min-width: 300px;
+    text-align: center;
+}
+
+.menu-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.menu-btn:hover::before {
+    left: 100%;
+}
+
+.menu-btn:hover {
+    background: linear-gradient(45deg, #16213e, #1a1a2e);
+    box-shadow: 
+        0 0 20px #00ffff,
+        inset 0 0 20px rgba(0, 255, 255, 0.1);
+    transform: translateY(-2px);
+    color: #ffffff;
+}
+
+.menu-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 0 10px #00ffff;
+}
+
+/* Music Control */
+.music-control {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 100;
+}
+
+.mute-btn {
+    font-family: 'Minecraft', monospace;
+    font-size: 1rem;
+    padding: 10px 20px;
+    background: rgba(0, 0, 0, 0.8);
+    color: #00ff00;
+    border: 2px solid #00ff00;
+    border-radius: 0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.mute-btn:hover {
+    background: rgba(0, 255, 0, 0.1);
+    box-shadow: 0 0 10px #00ff00;
+}
+
+.mute-btn.muted {
+    color: #ff0000;
+    border-color: #ff0000;
+}
+
+.mute-btn.muted:hover {
+    background: rgba(255, 0, 0, 0.1);
+    box-shadow: 0 0 10px #ff0000;
+}
+
+/* Pixel Effects */
+.pixel-effects {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.pixel-star {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: #ffff00;
+    box-shadow: 0 0 10px #ffff00;
+    animation: twinkle 3s infinite;
+}
+
+.pixel-star::before,
+.pixel-star::after {
+    content: '';
+    position: absolute;
+    background: #ffff00;
+}
+
+.pixel-star::before {
+    width: 6px;
+    height: 20px;
+    left: 7px;
+    top: 0;
+}
+
+.pixel-star::after {
+    width: 20px;
+    height: 6px;
+    left: 0;
+    top: 7px;
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.2); }
+}
+
+/* Footer */
+.footer {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+}
+
+.footer-text {
+    font-size: 1rem;
+    color: #888;
+    animation: blink 2s infinite;
+}
+
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0.3; }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .title {
+        font-size: 2.5rem;
+        letter-spacing: 4px;
+    }
+    
+    .menu-btn {
+        font-size: 1.2rem;
+        padding: 12px 30px;
+        min-width: 250px;
+    }
+    
+    .avatar {
+        width: 100px;
+        height: 100px;
+    }
+}
+
+@media (max-width: 480px) {
+    .title {
+        font-size: 2rem;
+        letter-spacing: 2px;
+    }
+    
+    .menu-btn {
+        font-size: 1rem;
+        padding: 10px 25px;
+        min-width: 200px;
+    }
+    
+    .music-control {
+        top: 10px;
+        right: 10px;
+    }
+    
+    .mute-btn {
+        font-size: 0.9rem;
+        padding: 8px 15px;
+    }
+}

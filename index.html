@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>8-Bit Arcade Homepage</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="background-waves"></div>
+        
+        <!-- Background Music -->
+        <audio id="backgroundMusic" loop>
+            <source src="assets/spring music stardew.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+        
+        <!-- Header -->
+        <header class="header">
+            <h1 class="title">ARCADE CENTRAL</h1>
+            <div class="subtitle">Welcome to the Retro Zone</div>
+        </header>
+        
+        <!-- Avatar Section -->
+        <div class="avatar-section">
+            <img src="assets/facing directly.png" alt="Avatar" class="avatar" id="avatar">
+        </div>
+        
+        <!-- Menu Buttons -->
+        <nav class="menu">
+            <button class="menu-btn" onclick="navigateToPage('help')">
+                <span class="btn-text">HELP</span>
+            </button>
+            <button class="menu-btn" onclick="navigateToPage('main-story')">
+                <span class="btn-text">MAIN STORY</span>
+            </button>
+            <button class="menu-btn" onclick="navigateToPage('alternate-stories')">
+                <span class="btn-text">ALTERNATE STORIES</span>
+            </button>
+            <button class="menu-btn" onclick="navigateToPage('credits')">
+                <span class="btn-text">CREDITS</span>
+            </button>
+        </nav>
+        
+        <!-- Music Control -->
+        <div class="music-control">
+            <button id="muteBtn" class="mute-btn" onclick="toggleMusic()">
+                <span id="muteText">🔊 MUSIC ON</span>
+            </button>
+        </div>
+        
+        <!-- Pixelated Effects -->
+        <div class="pixel-effects">
+            <div class="pixel-star" style="top: 10%; left: 15%;"></div>
+            <div class="pixel-star" style="top: 20%; right: 20%;"></div>
+            <div class="pixel-star" style="bottom: 30%; left: 10%;"></div>
+            <div class="pixel-star" style="bottom: 20%; right: 15%;"></div>
+        </div>
+        
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-text">Press any button to continue...</div>
+        </footer>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>

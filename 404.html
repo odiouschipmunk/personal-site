@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Page Not Found</title>
+    <style>
+        @font-face {
+            font-family: 'Minecraft';
+            src: url('assets/Minecraft.ttf') format('truetype');
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Minecraft', monospace;
+            background: linear-gradient(45deg, #0a0a0a, #1a1a2e, #16213e);
+            color: #ff0000;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+        }
+        
+        /* Music Control */
+        .music-control {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+        }
+        
+        .mute-btn {
+            font-family: 'Minecraft', monospace;
+            font-size: 1rem;
+            padding: 10px 20px;
+            background: rgba(0, 0, 0, 0.8);
+            color: #00ff00;
+            border: 2px solid #00ff00;
+            border-radius: 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .mute-btn:hover {
+            background: rgba(0, 255, 0, 0.1);
+            box-shadow: 0 0 10px #00ff00;
+        }
+        
+        .mute-btn.muted {
+            color: #ff0000;
+            border-color: #ff0000;
+        }
+        
+        .mute-btn.muted:hover {
+            background: rgba(255, 0, 0, 0.1);
+            box-shadow: 0 0 10px #ff0000;
+        }
+        
+        .container {
+            animation: glitch 2s infinite;
+        }
+        
+        .error-code {
+            font-size: 8rem;
+            color: #ff0000;
+            text-shadow: 
+                0 0 20px #ff0000,
+                0 0 40px #ff0000,
+                0 0 60px #ff0000;
+            margin-bottom: 20px;
+            animation: pulse 1.5s infinite;
+        }
+        
+        .error-message {
+            font-size: 2rem;
+            color: #00ffff;
+            text-shadow: 0 0 10px #00ffff;
+            margin-bottom: 40px;
+            letter-spacing: 2px;
+        }
+        
+        .error-description {
+            font-size: 1.2rem;
+            color: #ffff00;
+            margin-bottom: 40px;
+            max-width: 600px;
+            line-height: 1.5;
+        }
+        
+        .home-btn {
+            font-family: 'Minecraft', monospace;
+            font-size: 1.5rem;
+            padding: 15px 30px;
+            background: linear-gradient(45deg, #1a1a2e, #16213e);
+            color: #00ff00;
+            border: 3px solid #00ff00;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .home-btn:hover {
+            background: linear-gradient(45deg, #16213e, #1a1a2e);
+            box-shadow: 0 0 20px #00ff00;
+            transform: translateY(-2px);
+        }
+        
+        .pixel-rain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .pixel {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #ff0000;
+            animation: fall linear infinite;
+        }
+        
+        @keyframes glitch {
+            0%, 90%, 100% { transform: translate(0); }
+            10% { transform: translate(-2px, 2px); }
+            20% { transform: translate(2px, -2px); }
+            30% { transform: translate(-2px, -2px); }
+            40% { transform: translate(2px, 2px); }
+            50% { transform: translate(-2px, 2px); }
+            60% { transform: translate(2px, -2px); }
+            70% { transform: translate(-2px, -2px); }
+            80% { transform: translate(2px, 2px); }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        @keyframes fall {
+            0% {
+                top: -10px;
+                opacity: 1;
+            }
+            100% {
+                top: 100vh;
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Music -->
+    <audio id="backgroundMusic" loop>
+        <source src="assets/spring music stardew.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    
+    <!-- Music Control -->
+    <div class="music-control">
+        <button id="muteBtn" class="mute-btn" onclick="toggleMusic()">
+            <span id="muteText">🔊 MUSIC ON</span>
+        </button>
+    </div>
+    
+    <div class="pixel-rain" id="pixelRain"></div>
+    
+    <div class="container">
+        <div class="error-code">404</div>
+        <div class="error-message">GAME OVER</div>
+        <div class="error-description">
+            Oops! Looks like you've wandered into an uncharted level.<br>
+            This page hasn't been programmed yet!<br>
+            Time to respawn at the main menu.
+        </div>
+        <a href="index.html" class="home-btn">Return to Base</a>
+    </div>
+    
+    <script>
+        // Music persistence variables
+        let isMuted = false;
+        let musicInitialized = false;
+
+        // Initialize persistent music
+        function initializePersistentMusic() {
+            const music = document.getElementById('backgroundMusic');
+            if (!music) return;
+            
+            // Load saved music state
+            const savedPosition = localStorage.getItem('musicPosition');
+            const savedMutedState = localStorage.getItem('musicMuted');
+            const savedVolume = localStorage.getItem('musicVolume') || '0.7';
+            
+            console.log('404 Page - Initializing music - Saved muted state:', savedMutedState, 'Saved volume:', savedVolume);
+            
+            // Set up initial state
+            isMuted = savedMutedState === 'true';
+            music.volume = isMuted ? 0 : parseFloat(savedVolume);
+            updateMuteUI(isMuted);
+            
+            // Add multiple event listeners to catch when audio is ready
+            music.addEventListener('loadstart', () => {
+                console.log('404 Audio loadstart event');
+                if (!isMuted) ensureMusicPlaying();
+            });
+            
+            music.addEventListener('loadeddata', () => {
+                console.log('404 Audio loadeddata event');
+                if (!isMuted) ensureMusicPlaying();
+            });
+            
+            music.addEventListener('canplay', () => {
+                console.log('404 Audio canplay event');
+                if (!isMuted) ensureMusicPlaying();
+            });
+            
+            music.addEventListener('canplaythrough', () => {
+                console.log('404 Audio canplaythrough event');
+                if (!isMuted) ensureMusicPlaying();
+            });
+            
+            // Force music to try playing immediately
+            const tryPlayMusic = () => {
+                if (!isMuted) {
+                    music.play().then(() => {
+                        console.log('404 Music started successfully, volume:', music.volume);
+                        musicInitialized = true;
+                    }).catch(error => {
+                        console.log('404 Autoplay blocked, will try on user interaction');
+                        // Don't show play button, just mark as initialized
+                        musicInitialized = true;
+                    });
+                } else {
+                    console.log('404 Music initialized but muted');
+                    musicInitialized = true;
+                }
+            };
+            
+            // Restore position and start playing
+            if (savedPosition) {
+                music.addEventListener('loadedmetadata', function() {
+                    const position = parseFloat(savedPosition);
+                    if (position >= 0 && position < music.duration) {
+                        music.currentTime = position;
+                        console.log('404 Restored music position to:', position);
+                    }
+                    tryPlayMusic();
+                }, { once: true });
+            } else {
+                // No saved position, just start from beginning
+                music.addEventListener('canplaythrough', tryPlayMusic, { once: true });
+            }
+            
+            // Multiple aggressive fallback attempts
+            setTimeout(() => {
+                if (!isMuted) {
+                    console.log('404 Fallback 1: trying to start music');
+                    ensureMusicPlaying();
+                }
+            }, 100);
+            
+            setTimeout(() => {
+                if (!isMuted) {
+                    console.log('404 Fallback 2: trying to start music');
+                    ensureMusicPlaying();
+                }
+            }, 500);
+            
+            setTimeout(() => {
+                if (!isMuted) {
+                    console.log('404 Fallback 3: trying to start music');
+                    ensureMusicPlaying();
+                }
+            }, 1000);
+            
+            setTimeout(() => {
+                if (!isMuted) {
+                    console.log('404 Fallback 4: trying to start music');
+                    ensureMusicPlaying();
+                }
+            }, 2000);
+            
+            setTimeout(() => {
+                if (!isMuted) {
+                    console.log('404 Fallback 5: final attempt to start music');
+                    ensureMusicPlaying();
+                }
+            }, 3000);
+            
+            // Save position periodically
+            setInterval(() => {
+                if (music && !music.paused) {
+                    localStorage.setItem('musicPosition', music.currentTime.toString());
+                }
+            }, 1000);
+            
+            // Aggressive periodic check to ensure music is playing when it should be
+            setInterval(() => {
+                if (!isMuted && music) {
+                    if (music.paused) {
+                        console.log('404 Detected paused music that should be playing - attempting to resume');
+                        ensureMusicPlaying();
+                    } else if (music.volume === 0) {
+                        // Fix volume if it got reset
+                        const savedVolume = localStorage.getItem('musicVolume') || '0.7';
+                        music.volume = parseFloat(savedVolume);
+                        console.log('404 Fixed volume that was reset to 0, now:', music.volume);
+                    }
+                }
+            }, 500); // Check every half second for maximum responsiveness
+            
+            // Handle music end
+            music.addEventListener('ended', function() {
+                music.currentTime = 0;
+                localStorage.setItem('musicPosition', '0');
+                if (!isMuted) {
+                    music.play();
+                }
+            });
+        }
+
+        function updateMuteUI(muted) {
+            const muteBtn = document.getElementById('muteBtn');
+            const muteText = document.getElementById('muteText');
+            
+            if (muteBtn && muteText) {
+                if (muted) {
+                    muteText.textContent = '🔇 MUSIC OFF';
+                    muteBtn.classList.add('muted');
+                } else {
+                    muteText.textContent = '🔊 MUSIC ON';
+                    muteBtn.classList.remove('muted');
+                }
+            }
+        }
+
+        function toggleMusic() {
+            const music = document.getElementById('backgroundMusic');
+            
+            if (isMuted) {
+                // Unmute: restore volume and play
+                const savedVolume = localStorage.getItem('musicVolume') || '0.7';
+                music.volume = parseFloat(savedVolume);
+                isMuted = false;
+                
+                // Ensure music is playing - this is the key fix
+                if (music.paused) {
+                    music.play().then(() => {
+                        console.log('404 Music resumed successfully after unmute, volume:', music.volume);
+                        musicInitialized = true;
+                    }).catch(error => {
+                        console.log('404 Failed to resume music after unmute:', error);
+                        // Force try again after a short delay
+                        setTimeout(() => {
+                            if (music.paused && !isMuted) {
+                                music.play().catch(console.log);
+                            }
+                        }, 100);
+                    });
+                } else {
+                    // Music was already playing, just needed volume restored
+                    console.log('404 Music was already playing, volume restored to:', music.volume);
+                }
+                
+                updateMuteUI(false);
+                
+                console.log('Music unmuted, volume:', music.volume, 'playing:', !music.paused);
+            } else {
+                // Mute: save current volume and set to 0
+                if (music.volume > 0) {
+                    localStorage.setItem('musicVolume', music.volume.toString());
+                }
+                music.volume = 0;
+                isMuted = true;
+                
+                updateMuteUI(true);
+                
+                console.log('Music muted, volume:', music.volume);
+            }
+            
+            // Save the muted state
+            localStorage.setItem('musicMuted', isMuted.toString());
+        }
+
+        function saveMusicState() {
+            const music = document.getElementById('backgroundMusic');
+            if (music) {
+                localStorage.setItem('musicPosition', music.currentTime.toString());
+                localStorage.setItem('musicMuted', isMuted.toString());
+                if (music.volume > 0) {
+                    localStorage.setItem('musicVolume', music.volume.toString());
+                }
+                console.log('404 Saving music state - Position:', music.currentTime, 'Muted:', isMuted, 'Volume:', music.volume);
+            }
+        }
+
+        // Force music to play if it should be playing but isn't
+        function ensureMusicPlaying() {
+            const music = document.getElementById('backgroundMusic');
+            if (music && !isMuted) {
+                console.log('404 Force playing music - Current state: paused =', music.paused, 'volume =', music.volume);
+                
+                // Always restore volume first
+                const savedVolume = localStorage.getItem('musicVolume') || '0.7';
+                music.volume = parseFloat(savedVolume);
+                
+                // Force play regardless of current state
+                music.play().then(() => {
+                    console.log('404 Successfully force-played music, volume:', music.volume);
+                    musicInitialized = true;
+                }).catch(error => {
+                    console.log('404 Failed to force-play music:', error);
+                    // Try multiple times with different strategies
+                    setTimeout(() => {
+                        if (!isMuted) {
+                            music.load(); // Reload the audio
+                            music.play().catch(() => {
+                                console.log('404 Reload and play failed');
+                                // Try setting currentTime to force audio context
+                                try {
+                                    const savedPosition = localStorage.getItem('musicPosition');
+                                    if (savedPosition) {
+                                        music.currentTime = parseFloat(savedPosition);
+                                    }
+                                    music.play().catch(console.log);
+                                } catch (e) {
+                                    console.log('404 Final play attempt failed');
+                                }
+                            });
+                        }
+                    }, 200);
+                });
+            }
+        }
+
+        // Add keyboard shortcut for debugging music state
+        function debugMusicState() {
+            const music = document.getElementById('backgroundMusic');
+            console.log('=== 404 MUSIC DEBUG ===');
+            console.log('Audio element volume:', music ? music.volume : 'NO AUDIO ELEMENT');
+            console.log('Audio element paused:', music ? music.paused : 'NO AUDIO ELEMENT');
+            console.log('Audio element currentTime:', music ? music.currentTime : 'NO AUDIO ELEMENT');
+            console.log('isMuted variable:', isMuted);
+            console.log('musicInitialized:', musicInitialized);
+            console.log('Stored musicMuted:', localStorage.getItem('musicMuted'));
+            console.log('Stored musicVolume:', localStorage.getItem('musicVolume'));
+            console.log('Stored musicPosition:', localStorage.getItem('musicPosition'));
+            console.log('======================');
+        }
+        
+        // Create falling pixel effect
+        function createPixelRain() {
+            const pixelRain = document.getElementById('pixelRain');
+            
+            setInterval(() => {
+                const pixel = document.createElement('div');
+                pixel.className = 'pixel';
+                pixel.style.left = Math.random() * 100 + 'vw';
+                pixel.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                pixel.style.animationDelay = Math.random() * 2 + 's';
+                
+                // Random colors for variety
+                const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff'];
+                pixel.style.background = colors[Math.floor(Math.random() * colors.length)];
+                
+                pixelRain.appendChild(pixel);
+                
+                // Remove pixel after animation
+                setTimeout(() => {
+                    if (pixelRain.contains(pixel)) {
+                        pixelRain.removeChild(pixel);
+                    }
+                }, 5000);
+            }, 200);
+        }
+        
+        // Initialize everything
+        document.addEventListener('DOMContentLoaded', function() {
+            initializePersistentMusic();
+            createPixelRain();
+            
+            // Multiple immediate attempts to resume music
+            setTimeout(() => {
+                const music = document.getElementById('backgroundMusic');
+                if (music && !isMuted) {
+                    console.log('404 Immediate attempt 1 to resume music on page load');
+                    ensureMusicPlaying();
+                }
+            }, 50);
+            
+            setTimeout(() => {
+                const music = document.getElementById('backgroundMusic');
+                if (music && !isMuted) {
+                    console.log('404 Immediate attempt 2 to resume music on page load');
+                    ensureMusicPlaying();
+                }
+            }, 200);
+            
+            setTimeout(() => {
+                const music = document.getElementById('backgroundMusic');
+                if (music && !isMuted) {
+                    console.log('404 Immediate attempt 3 to resume music on page load');
+                    ensureMusicPlaying();
+                }
+            }, 500);
+            
+            // Save music state when leaving page
+            window.addEventListener('beforeunload', saveMusicState);
+            
+            // Try to play music on multiple events
+            const tryPlayOnEvent = () => {
+                const music = document.getElementById('backgroundMusic');
+                if (music && !isMuted) {
+                    ensureMusicPlaying();
+                }
+            };
+            
+            // Try on various page events
+            window.addEventListener('load', tryPlayOnEvent);
+            window.addEventListener('focus', tryPlayOnEvent);
+            document.addEventListener('visibilitychange', () => {
+                if (!document.hidden) {
+                    tryPlayOnEvent();
+                }
+            });
+            
+            // Fallback: try to play music on any user interaction
+            document.addEventListener('click', function() {
+                const music = document.getElementById('backgroundMusic');
+                if (music && music.paused && !isMuted) {
+                    music.play().then(() => {
+                        musicInitialized = true;
+                        console.log('404 Music started via click fallback');
+                    }).catch(console.log);
+                }
+            }, { once: true });
+            
+            // Try on mouse movement (less intrusive than click)
+            document.addEventListener('mousemove', function() {
+                const music = document.getElementById('backgroundMusic');
+                if (music && music.paused && !isMuted) {
+                    ensureMusicPlaying();
+                }
+            }, { once: true });
+            
+            // Try on any key press
+            document.addEventListener('keydown', function() {
+                const music = document.getElementById('backgroundMusic');
+                if (music && music.paused && !isMuted) {
+                    ensureMusicPlaying();
+                }
+            }, { once: true });
+        });
+        
+        // Add some interactive effects
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter' || event.key === ' ') {
+                saveMusicState();
+                window.location.href = 'index.html';
+            }
+            if (event.key === 'm' || event.key === 'M') {
+                toggleMusic();
+            }
+            // Debug shortcut
+            if (event.key === 'd' || event.key === 'D') {
+                if (event.ctrlKey) {
+                    debugMusicState();
+                } else {
+                    // Force play music
+                    ensureMusicPlaying();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
