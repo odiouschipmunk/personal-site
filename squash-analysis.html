@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Squash AI Coach - Spring Analysis</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="squash-styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="spring-background"></div>
+        
+        <!-- Background Music -->
+        <audio id="backgroundMusic" loop>
+            <source src="assets/spring music stardew.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+        
+        <!-- Header -->
+        <header class="header">
+            <h1 class="title">🌸 SQUASH AI COACH 🌸</h1>
+            <div class="subtitle">AI-Powered Spring Training Analysis</div>
+            <button class="back-btn" onclick="window.location.href='index.html'">
+                ← Back to Arcade
+            </button>
+        </header>
+        
+        <!-- Video Comparison Section -->
+        <section class="video-comparison">
+            <div class="video-header">
+                <h2>📹 Video Analysis Comparison</h2>
+                <p>Original match vs AI-annotated analysis</p>
+            </div>
+            
+            <div class="video-container">
+                <div class="video-panel">
+                    <h3>🎾 Original Match</h3>
+                    <div class="video-wrapper">
+                        <video id="originalVideo" controls preload="metadata" class="match-video" muted loop>
+                            <source src="videos/original.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="video-info">
+                        <span class="video-tag">Raw Match Footage (3x Speed)</span>
+                    </div>
+                </div>
+                
+                <div class="video-panel">
+                    <h3>🤖 AI Analysis</h3>
+                    <div class="video-wrapper">
+                        <video id="annotatedVideo" controls preload="metadata" class="match-video" muted loop>
+                            <source src="videos/annotated.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="video-info">
+                        <span class="video-tag">AI Annotated (3x Speed)</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Enhanced Performance Overview -->
+        <section class="enhanced-overview">
+            <div class="overview-header">
+                <h2>🌸 Spring Performance Overview</h2>
+                <p>Comprehensive match analysis with AI insights</p>
+            </div>
+            
+            <!-- Quick Stats Grid -->
+            <div class="quick-stats-grid">
+                <div class="stat-box performance">
+                    <div class="stat-icon">🏆</div>
+                    <div class="stat-data">
+                        <span class="stat-number">6.2/10</span>
+                        <span class="stat-title">Performance</span>
+                    </div>
+                </div>
+                <div class="stat-box shots">
+                    <div class="stat-icon">🎯</div>
+                    <div class="stat-data">
+                        <span class="stat-number">46</span>
+                        <span class="stat-title">Unique Shots</span>
+                    </div>
+                </div>
+                <div class="stat-box movement">
+                    <div class="stat-icon">🏃</div>
+                    <div class="stat-data">
+                        <span class="stat-number">93.4%</span>
+                        <span class="stat-title">Active Time</span>
+                    </div>
+                </div>
+                <div class="stat-box tactics">
+                    <div class="stat-icon">🧠</div>
+                    <div class="stat-data">
+                        <span class="stat-number">15%</span>
+                        <span class="stat-title">Predictability</span>
+                    </div>
+                </div>
+                <div class="stat-box frames">
+                    <div class="stat-icon">📊</div>
+                    <div class="stat-data">
+                        <span class="stat-number">4,086</span>
+                        <span class="stat-title">Frames</span>
+                    </div>
+                </div>
+                <div class="stat-box speed">
+                    <div class="stat-icon">⚡</div>
+                    <div class="stat-data">
+                        <span class="stat-number">119.86</span>
+                        <span class="stat-title">Max Speed</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Comprehensive Visual Analysis Grid -->
+        <section class="comprehensive-analysis">
+            <div class="analysis-header">
+                <h2>📊 Complete Visual Analysis</h2>
+                <p>All key graphics and performance data</p>
+            </div>
+            
+            <div class="analysis-grid">
+                <!-- Row 1: Main Analysis Graphics -->
+                <div class="analysis-panel large">
+                    <h3>🏟️ Court Positioning</h3>
+                    <div class="graphic-wrapper">
+                        <img src="full video self 1/output/graphics/detailed_court_positioning.png" 
+                             alt="Court Positioning Analysis" 
+                             class="analysis-graphic"
+                             loading="lazy">
+                    </div>
+                    <p class="graphic-description">Heat map showing player positioning throughout the match</p>
+                </div>
+                
+                <div class="analysis-panel large">
+                    <h3>🎾 Ball Analysis</h3>
+                    <div class="graphic-wrapper">
+                        <img src="full video self 1/output/graphics/comprehensive_ball_analysis.png" 
+                             alt="Ball Analysis" 
+                             class="analysis-graphic"
+                             loading="lazy">
+                    </div>
+                    <p class="graphic-description">Comprehensive ball movement and bounce patterns</p>
+                </div>
+                
+                <!-- Row 2: Shot & Match Flow -->
+                <div class="analysis-panel large">
+                    <h3>🎯 Enhanced Shot Analysis</h3>
+                    <div class="graphic-wrapper">
+                        <img src="full video self 1/output/graphics/enhanced_shot_analysis.png" 
+                             alt="Enhanced Shot Analysis" 
+                             class="analysis-graphic"
+                             loading="lazy">
+                    </div>
+                    <p class="graphic-description">Enhanced shot type distribution and accuracy</p>
+                </div>
+                
+                <div class="analysis-panel large">
+                    <h3>📈 Match Flow</h3>
+                    <div class="graphic-wrapper">
+                        <img src="full video self 1/output/graphics/match_flow.png" 
+                             alt="Match Flow" 
+                             class="analysis-graphic"
+                             loading="lazy">
+                    </div>
+                    <p class="graphic-description">Timeline of match dynamics and intensity</p>
+                </div>
+                
+                <!-- Row 3: Basic Analysis -->
+                <div class="analysis-panel medium">
+                    <h3>📋 Basic Analysis</h3>
+                    <div class="graphic-wrapper">
+                        <img src="full video self 1/output/graphics/basic_analysis.png" 
+                             alt="Basic Analysis" 
+                             class="analysis-graphic"
+                             loading="lazy">
+                    </div>
+                    <p class="graphic-description">Fundamental match statistics</p>
+                </div>
+                
+                <div class="analysis-panel medium">
+                    <h3>🎾 Ball Analysis Details</h3>
+                    <div class="graphic-wrapper">
+                        <img src="full video self 1/output/graphics/ball_analysis.png" 
+                             alt="Ball Analysis Details" 
+                             class="analysis-graphic"
+                             loading="lazy">
+                    </div>
+                    <p class="graphic-description">Detailed ball trajectory analysis</p>
+                </div>
+                
+                <div class="analysis-panel medium">
+                    <h3>🎯 Shot Analysis</h3>
+                    <div class="graphic-wrapper">
+                        <img src="full video self 1/output/graphics/shot_analysis.png" 
+                             alt="Shot Analysis" 
+                             class="analysis-graphic"
+                             loading="lazy">
+                    </div>
+                    <p class="graphic-description">Shot distribution patterns</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Heatmaps Section -->
+        <section class="heatmaps-section">
+            <div class="heatmaps-header">
+                <h2>🔥 Performance Heatmaps</h2>
+                <p>Player movement and ball trajectory patterns</p>
+            </div>
+            
+            <div class="heatmaps-grid">
+                <div class="heatmap-panel">
+                    <h3>👤 Player 1 Movement</h3>
+                    <div class="heatmap-wrapper">
+                        <img src="full video self 1/output/player1_heatmap.png" 
+                             alt="Player 1 Heatmap" 
+                             class="heatmap-graphic"
+                             loading="lazy">
+                    </div>
+                    <div class="heatmap-stats">
+                        <span>Coverage: 93.4%</span>
+                        <span>Active Time: High</span>
+                    </div>
+                </div>
+                
+                <div class="heatmap-panel">
+                    <h3>👤 Player 2 Movement</h3>
+                    <div class="heatmap-wrapper">
+                        <img src="full video self 1/output/player2_heatmap.png" 
+                             alt="Player 2 Heatmap" 
+                             class="heatmap-graphic"
+                             loading="lazy">
+                    </div>
+                    <div class="heatmap-stats">
+                        <span>Coverage: Optimal</span>
+                        <span>Strategy: Defensive</span>
+                    </div>
+                </div>
+                
+                <div class="heatmap-panel">
+                    <h3>🎾 Ball Movement</h3>
+                    <div class="heatmap-wrapper">
+                        <img src="full video self 1/output/ball_heatmap.png" 
+                             alt="Ball Heatmap" 
+                             class="heatmap-graphic"
+                             loading="lazy">
+                    </div>
+                    <div class="heatmap-stats">
+                        <span>Detection: 99.2%</span>
+                        <span>Max Speed: 119.86 px/frame</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Coaching Recommendations -->
+        <section class="recommendations-section">
+            <div class="recommendations-header">
+                <h2>🌿 Spring Training Recommendations</h2>
+                <p>AI-powered coaching insights for improvement</p>
+            </div>
+            
+            <div class="recommendations-grid">
+                <div class="recommendation-card ball-control">
+                    <div class="rec-icon">🎾</div>
+                    <h3>Ball Control</h3>
+                    <ul>
+                        <li>Focus on minimizing unnecessary wall bounces</li>
+                        <li>Work on straight drives for better accuracy</li>
+                        <li>Use tactical bounces (boasts) strategically</li>
+                        <li>Improve ball speed consistency</li>
+                    </ul>
+                    <div class="improvement-score">+2.1 points potential</div>
+                </div>
+                
+                <div class="recommendation-card positioning">
+                    <div class="rec-icon">📍</div>
+                    <h3>Court Positioning</h3>
+                    <ul>
+                        <li>Optimize ball trajectory control</li>
+                        <li>Improve court coverage efficiency</li>
+                        <li>Focus on central positioning recovery</li>
+                        <li>Enhance movement patterns</li>
+                    </ul>
+                    <div class="improvement-score">+1.8 points potential</div>
+                </div>
+                
+                <div class="recommendation-card technique">
+                    <div class="rec-icon">⚡</div>
+                    <h3>Technical Skills</h3>
+                    <ul>
+                        <li>Enhance shot execution quality</li>
+                        <li>Maintain high tactical variety</li>
+                        <li>Reduce pattern predictability</li>
+                        <li>Work on shot placement precision</li>
+                    </ul>
+                    <div class="improvement-score">+1.5 points potential</div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Technical Details -->
+        <section class="technical-section">
+            <div class="tech-header">
+                <h2>⚙️ Technical Analysis Details</h2>
+                <p>Advanced AI processing information</p>
+            </div>
+            
+            <div class="tech-stats">
+                <div class="tech-stat">
+                    <span class="tech-label">Total Frames Processed:</span>
+                    <span class="tech-value">4,086</span>
+                </div>
+                <div class="tech-stat">
+                    <span class="tech-label">Ball Detection Rate:</span>
+                    <span class="tech-value">99.2%</span>
+                </div>
+                <div class="tech-stat">
+                    <span class="tech-label">GPU Acceleration:</span>
+                    <span class="tech-value">Enabled</span>
+                </div>
+                <div class="tech-stat">
+                    <span class="tech-label">Data Points Analyzed:</span>
+                    <span class="tech-value">3,982</span>
+                </div>
+                <div class="tech-stat">
+                    <span class="tech-label">Average Ball Speed:</span>
+                    <span class="tech-value">8.05 px/frame</span>
+                </div>
+                <div class="tech-stat">
+                    <span class="tech-label">Maximum Ball Speed:</span>
+                    <span class="tech-value">119.86 px/frame</span>
+                </div>
+                <div class="tech-stat">
+                    <span class="tech-label">AI Model Accuracy:</span>
+                    <span class="tech-value">94.7%</span>
+                </div>
+                <div class="tech-stat">
+                    <span class="tech-label">Processing Time:</span>
+                    <span class="tech-value">127 seconds</span>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Music Control -->
+        <div class="music-control">
+            <button id="muteBtn" class="mute-btn" onclick="toggleMusic()">
+                <span id="muteText">🔊 MUSIC ON</span>
+            </button>
+        </div>
+        
+        <!-- Spring Effects -->
+        <div class="spring-effects">
+            <div class="floating-petal petal-1"></div>
+            <div class="floating-petal petal-2"></div>
+            <div class="floating-petal petal-3"></div>
+            <div class="floating-petal petal-4"></div>
+            <div class="floating-petal petal-5"></div>
+            <div class="floating-petal petal-6"></div>
+        </div>
+        
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-text">Spring AI Analysis Complete 🌸 • Enhanced View</div>
+        </footer>
+    </div>
+    
+    <script src="script.js"></script>
+    <script src="squash-script.js"></script>
+</body>
+</html>

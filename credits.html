@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Credits - Spring Arcade</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .credits-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            text-align: center;
+        }
+        
+        .credits-title {
+            font-size: 3rem;
+            color: #228B22;
+            text-shadow: 
+                0 0 10px #98FB98,
+                0 0 20px #98FB98,
+                2px 2px 0px #006400;
+            letter-spacing: 6px;
+            margin-bottom: 40px;
+            animation: springPulse 2s infinite;
+        }
+        
+        .credits-section {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(152, 251, 152, 0.7));
+            border: 4px solid #228B22;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.1),
+                inset 0 0 20px rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .credits-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 
+                0 12px 40px rgba(0, 0, 0, 0.2),
+                0 0 30px rgba(152, 251, 152, 0.5),
+                inset 0 0 30px rgba(255, 255, 255, 0.4);
+            border-color: #32CD32;
+        }
+        
+        .credits-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.5s;
+        }
+        
+        .credits-section:hover::before {
+            left: 100%;
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            color: #006400;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+            letter-spacing: 2px;
+        }
+        
+        .section-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
+            animation: iconFloat 3s ease-in-out infinite;
+        }
+        
+        .creator-name {
+            font-size: 1.4rem;
+            color: #228B22;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.6);
+        }
+        
+        .creator-role {
+            font-size: 1.1rem;
+            color: #32CD32;
+            margin-bottom: 15px;
+            opacity: 0.9;
+        }
+        
+        .creator-description {
+            font-size: 1rem;
+            color: #2F4F2F;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .home-button {
+            font-family: 'Minecraft', monospace;
+            font-size: 1.4rem;
+            padding: 15px 40px;
+            background: linear-gradient(45deg, #2a2a2a, #4a4a4a);
+            color: #00ff00;
+            border: 4px solid #00ff00;
+            border-radius: 12px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            letter-spacing: 2px;
+            margin-top: 30px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 
+                0 0 20px rgba(0, 255, 0, 0.3),
+                inset 0 2px 10px rgba(255, 255, 255, 0.1),
+                inset 0 -2px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .home-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(0, 255, 0, 0.1) 45%, 
+                rgba(0, 255, 0, 0.2) 50%, 
+                rgba(0, 255, 0, 0.1) 55%, 
+                transparent 100%);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+        
+        .home-button:hover::before {
+            transform: translateX(100%);
+        }
+        
+        .home-button:hover {
+            transform: translateY(-3px);
+            border-color: #32cd32;
+            box-shadow: 
+                0 0 30px rgba(50, 205, 50, 0.6),
+                inset 0 2px 15px rgba(255, 255, 255, 0.2),
+                inset 0 -2px 15px rgba(0, 0, 0, 0.4);
+        }
+        
+        .thank-you-section {
+            margin-top: 40px;
+            padding: 30px;
+            background: linear-gradient(135deg, rgba(255, 182, 193, 0.3), rgba(152, 251, 152, 0.3));
+            border: 3px solid #FF69B4;
+            border-radius: 15px;
+            box-shadow: 
+                0 0 20px rgba(255, 105, 180, 0.3),
+                inset 0 0 20px rgba(255, 255, 255, 0.2);
+        }
+        
+        .thank-you-text {
+            font-size: 1.3rem;
+            color: #2F4F2F;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+        
+        .spring-emoji {
+            font-size: 2rem;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes iconFloat {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(5deg); }
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .credits-title {
+                font-size: 2.2rem;
+                letter-spacing: 3px;
+            }
+            
+            .credits-section {
+                padding: 20px;
+                margin-bottom: 20px;
+            }
+            
+            .section-title {
+                font-size: 1.4rem;
+            }
+            
+            .creator-name {
+                font-size: 1.2rem;
+            }
+            
+            .home-button {
+                font-size: 1.2rem;
+                padding: 12px 30px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .credits-container {
+                padding: 20px 10px;
+            }
+            
+            .credits-title {
+                font-size: 1.8rem;
+                letter-spacing: 2px;
+            }
+            
+            .credits-section {
+                padding: 15px;
+            }
+            
+            .section-title {
+                font-size: 1.2rem;
+            }
+            
+            .section-icon {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="spring-background"></div>
+        
+        <!-- Background Music -->
+        <audio id="backgroundMusic" loop>
+            <source src="assets/spring music stardew.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+        
+        <!-- Music Control -->
+        <div class="music-control">
+            <button id="muteBtn" class="mute-btn" onclick="toggleMusic()">
+                <span id="muteText">🔊 MUSIC ON</span>
+            </button>
+        </div>
+        
+        <!-- Credits Content -->
+        <div class="credits-container">
+            <h1 class="credits-title">CREDITS</h1>
+
+            <div class="credits-section">
+                <div class="creator-description">
+                    Credits to ConcernedApe for the background music and image assets used in this project.
+					<br>All web dev work was done by myself (Dhruv Panchal).
+                </div>
+            </div>
+            
+
+            <a href="index.html" class="home-button">◀ RETURN TO ARCADE</a>
+        </div>
+        
+        <!-- Spring Effects -->
+        <div class="spring-effects">
+            <div class="floating-petal petal-1"></div>
+            <div class="floating-petal petal-2"></div>
+            <div class="floating-petal petal-3"></div>
+            <div class="floating-petal petal-4"></div>
+            <div class="floating-petal petal-5"></div>
+            <div class="floating-petal petal-6"></div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>

@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="container">
-        <div class="background-waves"></div>
+        <div class="spring-background"></div>
         
         <!-- Background Music -->
         <audio id="backgroundMusic" loop>
@@ -18,8 +18,8 @@
         
         <!-- Header -->
         <header class="header">
-            <h1 class="title">ARCADE CENTRAL</h1>
-            <div class="subtitle">Welcome to the Retro Zone</div>
+            <h1 class="title">SPRING ARCADE</h1>
+            <div class="subtitle">🌸 Bloom into Adventure 🌸</div>
         </header>
         
         <!-- Avatar Section -->
@@ -27,20 +27,28 @@
             <img src="assets/facing directly.png" alt="Avatar" class="avatar" id="avatar">
         </div>
         
-        <!-- Menu Buttons -->
-        <nav class="menu">
-            <button class="menu-btn" onclick="navigateToPage('help')">
-                <span class="btn-text">HELP</span>
-            </button>
-            <button class="menu-btn" onclick="navigateToPage('main-story')">
-                <span class="btn-text">MAIN STORY</span>
-            </button>
-            <button class="menu-btn" onclick="navigateToPage('alternate-stories')">
-                <span class="btn-text">ALTERNATE STORIES</span>
-            </button>
-            <button class="menu-btn" onclick="navigateToPage('credits')">
-                <span class="btn-text">CREDITS</span>
-            </button>
+        <!-- Arcade Menu -->
+        <nav class="arcade-menu">
+            <div class="arcade-button" onclick="navigateToPage('manual')">
+                <div class="button-icon">◆</div>
+                <div class="button-text">Manual</div>
+                <div class="button-glow"></div>
+            </div>
+            <div class="arcade-button" onclick="navigateToPage('squash')">
+                <div class="button-icon">▲</div>
+                <div class="button-text">Main Story</div>
+                <div class="button-glow"></div>
+            </div>
+            <div class="arcade-button" onclick="navigateToPage('projects')">
+                <div class="button-icon">●</div>
+                <div class="button-text">BONUS</div>
+                <div class="button-glow"></div>
+            </div>
+            <div class="arcade-button" onclick="navigateToPage('credits')">
+                <div class="button-icon">★</div>
+                <div class="button-text">CREDITS</div>
+                <div class="button-glow"></div>
+            </div>
         </nav>
         
         <!-- Music Control -->
@@ -50,12 +58,14 @@
             </button>
         </div>
         
-        <!-- Pixelated Effects -->
-        <div class="pixel-effects">
-            <div class="pixel-star" style="top: 10%; left: 15%;"></div>
-            <div class="pixel-star" style="top: 20%; right: 20%;"></div>
-            <div class="pixel-star" style="bottom: 30%; left: 10%;"></div>
-            <div class="pixel-star" style="bottom: 20%; right: 15%;"></div>
+        <!-- Spring Effects -->
+        <div class="spring-effects">
+            <div class="floating-petal petal-1"></div>
+            <div class="floating-petal petal-2"></div>
+            <div class="floating-petal petal-3"></div>
+            <div class="floating-petal petal-4"></div>
+            <div class="floating-petal petal-5"></div>
+            <div class="floating-petal petal-6"></div>
         </div>
         
         <!-- Footer -->

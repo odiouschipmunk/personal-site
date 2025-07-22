@@ -195,7 +195,7 @@
         let isMuted = false;
         let musicInitialized = false;
 
-        // Initialize persistent music
+        // Enhanced persistent music for 404 page
         function initializePersistentMusic() {
             const music = document.getElementById('backgroundMusic');
             if (!music) return;
@@ -204,131 +204,99 @@
             const savedPosition = localStorage.getItem('musicPosition');
             const savedMutedState = localStorage.getItem('musicMuted');
             const savedVolume = localStorage.getItem('musicVolume') || '0.7';
+            const savedPlayState = localStorage.getItem('musicPlaying');
             
-            console.log('404 Page - Initializing music - Saved muted state:', savedMutedState, 'Saved volume:', savedVolume);
+            console.log('404 Page - Initializing music - Saved muted state:', savedMutedState, 'Saved volume:', savedVolume, 'Was playing:', savedPlayState);
             
             // Set up initial state
             isMuted = savedMutedState === 'true';
             music.volume = isMuted ? 0 : parseFloat(savedVolume);
             updateMuteUI(isMuted);
             
-            // Add multiple event listeners to catch when audio is ready
-            music.addEventListener('loadstart', () => {
-                console.log('404 Audio loadstart event');
-                if (!isMuted) ensureMusicPlaying();
-            });
-            
-            music.addEventListener('loadeddata', () => {
-                console.log('404 Audio loadeddata event');
-                if (!isMuted) ensureMusicPlaying();
-            });
-            
-            music.addEventListener('canplay', () => {
-                console.log('404 Audio canplay event');
-                if (!isMuted) ensureMusicPlaying();
-            });
-            
-            music.addEventListener('canplaythrough', () => {
-                console.log('404 Audio canplaythrough event');
-                if (!isMuted) ensureMusicPlaying();
-            });
-            
-            // Force music to try playing immediately
+            // Enhanced music restoration
             const tryPlayMusic = () => {
-                if (!isMuted) {
+                if (!isMuted && savedPlayState !== 'false') {
                     music.play().then(() => {
                         console.log('404 Music started successfully, volume:', music.volume);
                         musicInitialized = true;
+                        localStorage.setItem('musicPlaying', 'true');
                     }).catch(error => {
                         console.log('404 Autoplay blocked, will try on user interaction');
-                        // Don't show play button, just mark as initialized
                         musicInitialized = true;
+                        // Don't set playing to false, keep trying
                     });
                 } else {
-                    console.log('404 Music initialized but muted');
+                    console.log('404 Music initialized but', isMuted ? 'muted' : 'was paused');
                     musicInitialized = true;
                 }
             };
             
-            // Restore position and start playing
-            if (savedPosition) {
-                music.addEventListener('loadedmetadata', function() {
+            // More robust position restoration
+            const restorePositionAndPlay = () => {
+                if (savedPosition && !isNaN(parseFloat(savedPosition))) {
                     const position = parseFloat(savedPosition);
-                    if (position >= 0 && position < music.duration) {
-                        music.currentTime = position;
-                        console.log('404 Restored music position to:', position);
-                    }
-                    tryPlayMusic();
-                }, { once: true });
-            } else {
-                // No saved position, just start from beginning
-                music.addEventListener('canplaythrough', tryPlayMusic, { once: true });
-            }
+                    music.currentTime = Math.max(0, position);
+                    console.log('404 Restored music position to:', position);
+                }
+                tryPlayMusic();
+            };
             
-            // Multiple aggressive fallback attempts
+            // Multiple event listeners for better reliability
+            music.addEventListener('loadedmetadata', restorePositionAndPlay, { once: true });
+            music.addEventListener('canplaythrough', () => {
+                if (!musicInitialized) {
+                    restorePositionAndPlay();
+                }
+            }, { once: true });
+            
+            // Aggressive fallbacks for better music persistence
             setTimeout(() => {
-                if (!isMuted) {
+                if (!musicInitialized && !isMuted) {
                     console.log('404 Fallback 1: trying to start music');
-                    ensureMusicPlaying();
+                    restorePositionAndPlay();
                 }
             }, 100);
             
             setTimeout(() => {
-                if (!isMuted) {
-                    console.log('404 Fallback 2: trying to start music');
-                    ensureMusicPlaying();
+                if (!isMuted && music.paused && savedPlayState !== 'false') {
+                    console.log('404 Fallback 2: forcing music play');
+                    music.play().catch(console.log);
                 }
             }, 500);
             
             setTimeout(() => {
-                if (!isMuted) {
-                    console.log('404 Fallback 3: trying to start music');
-                    ensureMusicPlaying();
+                if (!isMuted && music.paused && savedPlayState !== 'false') {
+                    console.log('404 Fallback 3: final attempt to play music');
+                    music.play().catch(console.log);
                 }
             }, 1000);
             
-            setTimeout(() => {
-                if (!isMuted) {
-                    console.log('404 Fallback 4: trying to start music');
-                    ensureMusicPlaying();
-                }
-            }, 2000);
-            
-            setTimeout(() => {
-                if (!isMuted) {
-                    console.log('404 Fallback 5: final attempt to start music');
-                    ensureMusicPlaying();
-                }
-            }, 3000);
-            
-            // Save position periodically
+            // Save position and state more frequently
             setInterval(() => {
                 if (music && !music.paused) {
                     localStorage.setItem('musicPosition', music.currentTime.toString());
+                    localStorage.setItem('musicPlaying', 'true');
+                } else if (music && music.paused) {
+                    localStorage.setItem('musicPlaying', 'false');
                 }
-            }, 1000);
-            
-            // Aggressive periodic check to ensure music is playing when it should be
-            setInterval(() => {
-                if (!isMuted && music) {
-                    if (music.paused) {
-                        console.log('404 Detected paused music that should be playing - attempting to resume');
-                        ensureMusicPlaying();
-                    } else if (music.volume === 0) {
-                        // Fix volume if it got reset
-                        const savedVolume = localStorage.getItem('musicVolume') || '0.7';
-                        music.volume = parseFloat(savedVolume);
-                        console.log('404 Fixed volume that was reset to 0, now:', music.volume);
-                    }
-                }
-            }, 500); // Check every half second for maximum responsiveness
+            }, 500);
             
             // Handle music end
             music.addEventListener('ended', function() {
                 music.currentTime = 0;
                 localStorage.setItem('musicPosition', '0');
                 if (!isMuted) {
-                    music.play();
+                    music.play().then(() => {
+                        localStorage.setItem('musicPlaying', 'true');
+                    });
+                }
+            });
+            
+            // Handle visibility changes
+            document.addEventListener('visibilitychange', function() {
+                if (!document.hidden && !isMuted && music.paused && savedPlayState !== 'false') {
+                    console.log('404 Page became visible, attempting to resume music');
+                    music.play().catch(console.log);
                 }
             });
         }
@@ -357,28 +325,31 @@
                 music.volume = parseFloat(savedVolume);
                 isMuted = false;
                 
-                // Ensure music is playing - this is the key fix
+                // Ensure music is playing
                 if (music.paused) {
                     music.play().then(() => {
                         console.log('404 Music resumed successfully after unmute, volume:', music.volume);
                         musicInitialized = true;
+                        localStorage.setItem('musicPlaying', 'true');
                     }).catch(error => {
                         console.log('404 Failed to resume music after unmute:', error);
                         // Force try again after a short delay
                         setTimeout(() => {
                             if (music.paused && !isMuted) {
-                                music.play().catch(console.log);
+                                music.play().then(() => {
+                                    localStorage.setItem('musicPlaying', 'true');
+                                }).catch(console.log);
                             }
                         }, 100);
                     });
                 } else {
-                    // Music was already playing, just needed volume restored
+                    localStorage.setItem('musicPlaying', 'true');
                     console.log('404 Music was already playing, volume restored to:', music.volume);
                 }
                 
                 updateMuteUI(false);
                 
-                console.log('Music unmuted, volume:', music.volume, 'playing:', !music.paused);
+                console.log('404 Music unmuted, volume:', music.volume, 'playing:', !music.paused);
             } else {
                 // Mute: save current volume and set to 0
                 if (music.volume > 0) {
@@ -386,10 +357,11 @@
                 }
                 music.volume = 0;
                 isMuted = true;
+                localStorage.setItem('musicPlaying', 'false');
                 
                 updateMuteUI(true);
                 
-                console.log('Music muted, volume:', music.volume);
+                console.log('404 Music muted, volume:', music.volume);
             }
             
             // Save the muted state
@@ -401,10 +373,11 @@
             if (music) {
                 localStorage.setItem('musicPosition', music.currentTime.toString());
                 localStorage.setItem('musicMuted', isMuted.toString());
+                localStorage.setItem('musicPlaying', music.paused ? 'false' : 'true');
                 if (music.volume > 0) {
                     localStorage.setItem('musicVolume', music.volume.toString());
                 }
-                console.log('404 Saving music state - Position:', music.currentTime, 'Muted:', isMuted, 'Volume:', music.volume);
+                console.log('404 Saving music state - Position:', music.currentTime, 'Muted:', isMuted, 'Volume:', music.volume, 'Playing:', !music.paused);
             }
         }
 

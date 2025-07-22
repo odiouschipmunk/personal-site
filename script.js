@@ -1,11 +1,13 @@
 // Global variables
 let isMuted = false;
 let currentAvatar = 0;
+let isWaving = false; // Track if avatar is currently waving
 const avatars = [
     'assets/facing directly.png',
     'assets/sideways.png',
     'assets/completely sideways.png'
 ];
+const wavingAvatar = 'assets/waving.png';
 
 // Music persistence variables
 let musicPosition = 0;
@@ -39,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }, { once: true });
 });
 
-// Persistent Music functionality
+// Enhanced Persistent Music functionality
 function initializePersistentMusic() {
     const music = document.getElementById('backgroundMusic');
     if (!music) return;
@@ -48,66 +50,84 @@ function initializePersistentMusic() {
     const savedPosition = localStorage.getItem('musicPosition');
     const savedMutedState = localStorage.getItem('musicMuted');
     const savedVolume = localStorage.getItem('musicVolume') || '0.7';
+    const savedPlayState = localStorage.getItem('musicPlaying');
     
-    console.log('Initializing music - Saved muted state:', savedMutedState, 'Saved volume:', savedVolume);
+    console.log('Initializing music - Saved muted state:', savedMutedState, 'Saved volume:', savedVolume, 'Was playing:', savedPlayState);
     
     // Set up initial state
     isMuted = savedMutedState === 'true';
     music.volume = isMuted ? 0 : parseFloat(savedVolume);
     updateMuteUI(isMuted);
     
-    // Force music to try playing immediately
+    // Enhanced music restoration
     const tryPlayMusic = () => {
-        if (!isMuted) {
+        if (!isMuted && savedPlayState !== 'false') {
             music.play().then(() => {
                 console.log('Music started successfully, volume:', music.volume);
                 musicInitialized = true;
+                localStorage.setItem('musicPlaying', 'true');
             }).catch(error => {
                 console.log('Autoplay blocked, music will try to start on interaction');
                 musicInitialized = true;
+                // Don't set playing to false, keep trying
             });
         } else {
-            console.log('Music initialized but muted');
+            console.log('Music initialized but', isMuted ? 'muted' : 'was paused');
             musicInitialized = true;
         }
     };
     
-    // Restore position and start playing
-    if (savedPosition) {
-        music.addEventListener('loadedmetadata', function() {
+    // More robust position restoration
+    const restorePositionAndPlay = () => {
+        if (savedPosition && !isNaN(parseFloat(savedPosition))) {
             const position = parseFloat(savedPosition);
-            if (position >= 0 && position < music.duration) {
-                music.currentTime = position;
-                console.log('Restored music position to:', position);
-            }
-            tryPlayMusic();
-        }, { once: true });
-    } else {
-        // No saved position, just start from beginning
-        music.addEventListener('canplaythrough', tryPlayMusic, { once: true });
-    }
+            music.currentTime = Math.max(0, position);
+            console.log('Restored music position to:', position);
+        }
+        tryPlayMusic();
+    };
     
-    // Fallback: try to play after a short delay
+    // Multiple event listeners for better reliability
+    music.addEventListener('loadedmetadata', restorePositionAndPlay, { once: true });
+    music.addEventListener('canplaythrough', () => {
+        if (!musicInitialized) {
+            restorePositionAndPlay();
+        }
+    }, { once: true });
+    
+    // Aggressive fallbacks for better music persistence
     setTimeout(() => {
         if (!musicInitialized && !isMuted) {
-            console.log('Fallback: trying to start music');
-            tryPlayMusic();
+            console.log('Fallback 1: trying to start music');
+            restorePositionAndPlay();
         }
-    }, 1000);
+    }, 500);
     
-    // Save position periodically
+    // Removed aggressive music forcing - let user control video playback
+    
+    // Save position and state more frequently
     setInterval(() => {
         if (music && !music.paused) {
             localStorage.setItem('musicPosition', music.currentTime.toString());
+            localStorage.setItem('musicPlaying', 'true');
+        } else if (music && music.paused) {
+            localStorage.setItem('musicPlaying', 'false');
         }
-    }, 1000);
+    }, 500); // More frequent saves
     
     // Handle music end (loop manually to maintain position tracking)
     music.addEventListener('ended', function() {
         music.currentTime = 0;
         localStorage.setItem('musicPosition', '0');
         if (!isMuted) {
-            music.play();
+            music.play().catch(console.log);
+        }
+    });
+    
+    // Handle visibility changes (simplified)
+    document.addEventListener('visibilitychange', function() {
+        if (!document.hidden && !isMuted && music.paused) {
+            console.log('Page became visible, music can be resumed manually');
         }
     });
 }
@@ -132,10 +152,11 @@ function saveMusicState() {
     if (music) {
         localStorage.setItem('musicPosition', music.currentTime.toString());
         localStorage.setItem('musicMuted', isMuted.toString());
+        localStorage.setItem('musicPlaying', music.paused ? 'false' : 'true');
         if (music.volume > 0) {
             localStorage.setItem('musicVolume', music.volume.toString());
         }
-        console.log('Saving music state - Position:', music.currentTime, 'Muted:', isMuted, 'Volume:', music.volume);
+        console.log('Saving music state - Position:', music.currentTime, 'Muted:', isMuted, 'Volume:', music.volume, 'Playing:', !music.paused);
     }
 }
 
@@ -175,15 +196,20 @@ function toggleMusic() {
         if (music.paused) {
             music.play().then(() => {
                 console.log('Music resumed successfully after unmute');
+                localStorage.setItem('musicPlaying', 'true');
             }).catch(error => {
                 console.log('Failed to resume music after unmute:', error);
                 // Force try again after a short delay
                 setTimeout(() => {
                     if (music.paused && !isMuted) {
-                        music.play().catch(console.log);
+                        music.play().then(() => {
+                            localStorage.setItem('musicPlaying', 'true');
+                        }).catch(console.log);
                     }
                 }, 100);
             });
+        } else {
+            localStorage.setItem('musicPlaying', 'true');
         }
         
         updateMuteUI(false);
@@ -197,6 +223,7 @@ function toggleMusic() {
         }
         music.volume = 0;
         isMuted = true;
+        localStorage.setItem('musicPlaying', 'false');
         
         updateMuteUI(true);
         
@@ -211,26 +238,41 @@ function toggleMusic() {
 function initializeAvatar() {
     const avatar = document.getElementById('avatar');
     
-    // Cycle through avatars on click
+    // Change to waving avatar on click
     avatar.addEventListener('click', function() {
-        currentAvatar = (currentAvatar + 1) % avatars.length;
-        avatar.src = avatars[currentAvatar];
-        playButtonSound();
-        
-        // Add a little animation
-        avatar.style.transform = 'scale(1.2) rotate(360deg)';
-        setTimeout(() => {
-            avatar.style.transform = 'scale(1)';
-        }, 300);
+        changeToWaving();
     });
     
-    // Random avatar change every 10 seconds
+    // Random avatar change every 10 seconds (only when not waving)
     setInterval(() => {
-        if (Math.random() > 0.7) { // 30% chance
+        if (!isWaving && Math.random() > 0.7) { // 30% chance
             currentAvatar = (currentAvatar + 1) % avatars.length;
             avatar.src = avatars[currentAvatar];
         }
     }, 10000);
+}
+
+// Function to change avatar to waving
+function changeToWaving() {
+    const avatar = document.getElementById('avatar');
+    
+    if (!isWaving) {
+        isWaving = true;
+        avatar.src = wavingAvatar;
+        playButtonSound();
+        
+        // Add a little animation
+        avatar.style.transform = 'scale(1.2) rotate(5deg)';
+        setTimeout(() => {
+            avatar.style.transform = 'scale(1)';
+        }, 300);
+        
+        // Return to normal avatar after 3 seconds
+        setTimeout(() => {
+            isWaving = false;
+            avatar.src = avatars[currentAvatar];
+        }, 3000);
+    }
 }
 
 // Navigation functionality
@@ -241,7 +283,7 @@ function navigateToPage(page) {
     saveMusicState();
     
     // Add visual feedback
-    const buttons = document.querySelectorAll('.menu-btn');
+    const buttons = document.querySelectorAll('.arcade-button');
     buttons.forEach(btn => {
         if (btn.onclick.toString().includes(page)) {
             btn.style.transform = 'translateY(2px)';
@@ -251,9 +293,15 @@ function navigateToPage(page) {
         }
     });
     
-    // Navigate to 404 page after animation
+    // Navigate to appropriate page after animation
     setTimeout(() => {
-        window.location.href = '404.html';
+        if (page === 'credits') {
+            window.location.href = 'credits.html';
+        } else if (page === 'squash') {
+            window.location.href = 'squash-analysis.html';
+        } else {
+            window.location.href = '404.html';
+        }
     }, 300);
 }
 
@@ -283,59 +331,81 @@ function playButtonSound() {
 
 // Keyboard navigation
 function addKeyboardListeners() {
-    let selectedButton = 0;
-    const buttons = document.querySelectorAll('.menu-btn');
+    let selectedCard = 0;
+    const cards = document.querySelectorAll('.arcade-button');
     
     document.addEventListener('keydown', function(event) {
         switch(event.key) {
             case 'ArrowUp':
                 event.preventDefault();
-                selectedButton = (selectedButton - 1 + buttons.length) % buttons.length;
-                highlightButton(selectedButton);
+                selectedCard = Math.max(0, selectedCard - 1);
+                highlightCard(selectedCard);
                 playButtonSound();
+                changeToWaving(); // Trigger waving on any button press
                 break;
                 
             case 'ArrowDown':
                 event.preventDefault();
-                selectedButton = (selectedButton + 1) % buttons.length;
-                highlightButton(selectedButton);
+                selectedCard = Math.min(cards.length - 1, selectedCard + 1);
+                highlightCard(selectedCard);
                 playButtonSound();
+                changeToWaving(); // Trigger waving on any button press
+                break;
+                
+            case 'ArrowLeft':
+                event.preventDefault();
+                selectedCard = Math.max(0, selectedCard - 1);
+                highlightCard(selectedCard);
+                playButtonSound();
+                changeToWaving(); // Trigger waving on any button press
+                break;
+                
+            case 'ArrowRight':
+                event.preventDefault();
+                selectedCard = Math.min(cards.length - 1, selectedCard + 1);
+                highlightCard(selectedCard);
+                playButtonSound();
+                changeToWaving(); // Trigger waving on any button press
                 break;
                 
             case 'Enter':
             case ' ':
                 event.preventDefault();
-                buttons[selectedButton].click();
+                cards[selectedCard].click();
+                changeToWaving(); // Trigger waving on any button press
                 break;
                 
             case 'm':
             case 'M':
                 toggleMusic();
+                changeToWaving(); // Trigger waving on any button press
                 break;
                 
-            case 'a':
-            case 'A':
-                document.getElementById('avatar').click();
+            default:
+                // For any other key press, trigger waving
+                changeToWaving();
                 break;
         }
     });
     
-    // Initialize first button as selected
-    highlightButton(0);
+    // Initialize first card as selected
+    highlightCard(0);
 }
 
-function highlightButton(index) {
-    const buttons = document.querySelectorAll('.menu-btn');
+function highlightCard(index) {
+    const cards = document.querySelectorAll('.arcade-button');
     
-    // Remove highlight from all buttons
-    buttons.forEach(btn => {
-        btn.style.backgroundColor = '';
-        btn.style.borderColor = '#00ffff';
+    // Remove highlight from all cards
+    cards.forEach(card => {
+        card.style.transform = '';
+        card.style.boxShadow = '';
     });
     
-    // Highlight selected button
-    buttons[index].style.backgroundColor = 'rgba(0, 255, 255, 0.2)';
-    buttons[index].style.borderColor = '#ffffff';
+    // Highlight selected card
+    if (cards[index]) {
+        cards[index].style.transform = 'translateY(-5px) scale(1.05)';
+        cards[index].style.boxShadow = '0 0 40px rgba(152, 251, 152, 0.8), inset 0 2px 20px rgba(255, 255, 255, 0.3)';
+    }
 }
 
 // Click effects

@@ -1,0 +1,1235 @@
+/* Squash Analysis Page Specific Styles */
+
+/* Override body for scrollable content */
+body {
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: auto;
+    min-height: 100vh;
+}
+
+.container {
+    padding: 20px 0;
+    min-height: 100vh;
+    height: auto;
+}
+
+/* Back Button */
+.back-btn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-family: 'Minecraft', monospace;
+    font-size: 1rem;
+    padding: 10px 20px;
+    background: rgba(152, 251, 152, 0.8);
+    color: #228B22;
+    border: 2px solid #228B22;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+    text-decoration: none;
+    display: inline-block;
+}
+
+.back-btn:hover {
+    background: rgba(152, 251, 152, 1);
+    box-shadow: 0 0 15px #98FB98;
+    transform: translateY(-2px);
+}
+
+/* Video Comparison Section */
+.video-comparison {
+    margin: 40px auto;
+    max-width: 1400px;
+    padding: 0 20px;
+}
+
+.video-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.video-header h2 {
+    font-size: 2.5rem;
+    color: #228B22;
+    text-shadow: 0 0 10px #98FB98;
+    margin-bottom: 10px;
+}
+
+.video-header p {
+    font-size: 1.2rem;
+    color: #FF69B4;
+    text-shadow: 0 0 5px #FFB6C1;
+}
+
+.video-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-top: 30px;
+}
+
+.video-panel {
+    background: rgba(255, 255, 255, 0.9);
+    border: 3px solid #32CD32;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 
+        0 0 20px rgba(50, 205, 50, 0.3),
+        inset 0 2px 10px rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+.video-panel:hover {
+    box-shadow: 
+        0 0 30px rgba(50, 205, 50, 0.5),
+        inset 0 2px 15px rgba(255, 255, 255, 0.2);
+    transform: translateY(-5px);
+}
+
+.video-panel h3 {
+    font-size: 1.5rem;
+    color: #228B22;
+    text-align: center;
+    margin-bottom: 15px;
+    text-shadow: 0 0 5px #98FB98;
+}
+
+.video-wrapper {
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.match-video {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 10px;
+    position: relative;
+}
+
+.match-video::after {
+    content: "3x SPEED";
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(255, 69, 0, 0.9);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 15px;
+    font-size: 0.7rem;
+    font-weight: bold;
+    font-family: 'Minecraft', monospace;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+    pointer-events: none;
+    z-index: 10;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.8; }
+    50% { opacity: 1; }
+}
+
+/* Compact Layout Styles */
+.insights-grid.compact {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.insights-grid.compact .insight-card {
+    padding: 15px;
+    height: auto;
+    min-height: 120px;
+}
+
+.insights-grid.compact .insight-card h3 {
+    font-size: 1rem;
+    margin: 10px 0 5px 0;
+}
+
+.insights-grid.compact .stat-value {
+    font-size: 1.8rem;
+}
+
+.insights-grid.compact .stat-label {
+    font-size: 0.8rem;
+}
+
+/* Enhanced Overview Section */
+.enhanced-overview {
+    margin: 30px auto;
+    max-width: 1200px;
+    padding: 0 20px;
+}
+
+.overview-header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.overview-header h2 {
+    font-family: 'Minecraft', monospace;
+    font-size: 2.2rem;
+    color: #32CD32;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    margin-bottom: 10px;
+}
+
+.overview-header p {
+    font-size: 1.1rem;
+    color: #FF69B4;
+    text-shadow: 0 0 5px #FFB6C1;
+}
+
+/* Quick Stats Grid */
+.quick-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.stat-box {
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid #32CD32;
+    border-radius: 12px;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 10px rgba(50, 205, 50, 0.2);
+}
+
+.stat-box:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 20px rgba(50, 205, 50, 0.4);
+    border-color: #98FB98;
+}
+
+.stat-icon {
+    font-size: 2rem;
+    min-width: 40px;
+}
+
+.stat-data {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-number {
+    font-family: 'Minecraft', monospace;
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #228B22;
+    line-height: 1;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.stat-title {
+    font-family: 'Minecraft', monospace;
+    font-size: 0.75rem;
+    color: #32CD32;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Comprehensive Analysis Section */
+.comprehensive-analysis {
+    margin: 40px auto;
+    max-width: 1400px;
+    padding: 0 20px;
+}
+
+.analysis-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.analysis-panel.large {
+    grid-column: span 1;
+}
+
+.analysis-panel.medium {
+    min-height: 280px;
+}
+
+.analysis-panel {
+    background: rgba(255, 255, 255, 0.95);
+    border: 3px solid #32CD32;
+    border-radius: 15px;
+    padding: 15px;
+    box-shadow: 
+        0 0 15px rgba(50, 205, 50, 0.3),
+        inset 0 2px 10px rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+.analysis-panel:hover {
+    box-shadow: 
+        0 0 25px rgba(50, 205, 50, 0.5),
+        inset 0 2px 15px rgba(255, 255, 255, 0.2);
+    transform: translateY(-5px);
+}
+
+.analysis-panel h3 {
+    font-family: 'Minecraft', monospace;
+    font-size: 1.2rem;
+    color: #228B22;
+    text-align: center;
+    margin-bottom: 12px;
+    text-shadow: 0 0 5px #98FB98;
+}
+
+.graphic-wrapper {
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+    margin-bottom: 10px;
+}
+
+.analysis-graphic {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 10px;
+}
+
+.graphic-description {
+    font-size: 0.85rem;
+    color: #666;
+    text-align: center;
+    margin: 0;
+    font-style: italic;
+}
+
+/* Enhanced Heatmaps */
+.heatmap-stats {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 8px;
+    font-family: 'Minecraft', monospace;
+    font-size: 0.7rem;
+}
+
+.heatmap-stats span {
+    background: rgba(50, 205, 50, 0.1);
+    padding: 2px 6px;
+    border-radius: 8px;
+    color: #228B22;
+    border: 1px solid rgba(50, 205, 50, 0.3);
+}
+
+/* Enhanced Recommendations */
+.improvement-score {
+    margin-top: 10px;
+    padding: 5px 10px;
+    background: linear-gradient(45deg, #FFD700, #FFA500);
+    color: #8B4513;
+    border-radius: 15px;
+    font-family: 'Minecraft', monospace;
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
+}
+
+/* Analysis Preview Section */
+.analysis-preview {
+    margin: 30px auto;
+    max-width: 1200px;
+    padding: 0 20px;
+}
+
+.preview-header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.preview-header h2 {
+    font-family: 'Minecraft', monospace;
+    font-size: 2rem;
+    color: #32CD32;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    margin-bottom: 10px;
+}
+
+.preview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.preview-panel {
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(152, 251, 152, 0.3);
+    border-radius: 15px;
+    padding: 15px;
+    text-align: center;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.preview-panel:hover {
+    border-color: #32CD32;
+    box-shadow: 0 5px 20px rgba(50, 205, 50, 0.3);
+    transform: translateY(-2px);
+}
+
+.preview-graphic {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.preview-label {
+    font-family: 'Minecraft', monospace;
+    font-size: 0.9rem;
+    color: #98FB98;
+    font-weight: bold;
+}
+
+/* Continue Section */
+.continue-section {
+    text-align: center;
+    margin: 40px 0;
+}
+
+/* Progress Indicator */
+.progress-indicator {
+    margin-bottom: 25px;
+}
+
+.progress-bar {
+    width: 300px;
+    height: 8px;
+    background: rgba(152, 251, 152, 0.2);
+    border-radius: 10px;
+    margin: 0 auto 10px auto;
+    overflow: hidden;
+    border: 1px solid rgba(152, 251, 152, 0.4);
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #32CD32, #98FB98);
+    border-radius: 10px;
+    width: 30%;
+    transition: width 0.3s ease;
+    box-shadow: 0 0 10px rgba(50, 205, 50, 0.6);
+}
+
+.progress-text {
+    font-family: 'Minecraft', monospace;
+    font-size: 0.85rem;
+    color: #98FB98;
+}
+
+.current-section {
+    color: #32CD32;
+    font-weight: bold;
+}
+
+.total-content {
+    color: #FFD700;
+}
+
+.arcade-continue-btn, .arcade-close-btn {
+    position: relative;
+    font-family: 'Minecraft', monospace;
+    font-size: 1.1rem;
+    font-weight: bold;
+    padding: 15px 30px;
+    background: linear-gradient(45deg, #32CD32, #98FB98);
+    color: #006400;
+    border: 3px solid #228B22;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    overflow: hidden;
+}
+
+.arcade-continue-btn:hover, .arcade-close-btn:hover {
+    background: linear-gradient(45deg, #98FB98, #32CD32);
+    box-shadow: 0 0 20px #32CD32;
+    transform: translateY(-3px);
+}
+
+.btn-icon {
+    margin-right: 10px;
+    transition: transform 0.3s ease;
+}
+
+.arcade-continue-btn:hover .btn-icon {
+    transform: rotate(180deg);
+}
+
+.arcade-close-btn:hover .btn-icon {
+    transform: rotate(180deg);
+}
+
+.btn-glow {
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transform: rotate(45deg);
+    transition: all 0.6s ease;
+    opacity: 0;
+}
+
+.arcade-continue-btn:hover .btn-glow, .arcade-close-btn:hover .btn-glow {
+    animation: shine 1.5s ease-in-out infinite;
+}
+
+@keyframes shine {
+    0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); opacity: 0; }
+    50% { opacity: 1; }
+    100% { transform: translateX(100%) translateY(100%) rotate(45deg); opacity: 0; }
+}
+
+.continue-hint {
+    margin-top: 15px;
+    font-family: 'Minecraft', monospace;
+    color: #98FB98;
+    font-size: 0.9rem;
+}
+
+.blink {
+    animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0.3; }
+}
+
+/* Hidden Detailed Analysis */
+.detailed-analysis {
+    transition: all 0.5s ease;
+    overflow: hidden;
+}
+
+.detailed-analysis.hidden {
+    max-height: 0;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+}
+
+.close-detailed-section {
+    text-align: center;
+    margin: 30px 0;
+}
+
+.video-info {
+    margin-top: 15px;
+    text-align: center;
+}
+
+.video-tag {
+    background: linear-gradient(45deg, #98FB98, #32CD32);
+    color: #006400;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    text-shadow: none;
+    box-shadow: 0 2px 10px rgba(50, 205, 50, 0.3);
+}
+
+/* Insights Section */
+.insights-section {
+    margin: 60px auto;
+    max-width: 1400px;
+    padding: 0 20px;
+}
+
+.insights-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.insights-header h2 {
+    font-size: 2.5rem;
+    color: #228B22;
+    text-shadow: 0 0 10px #98FB98;
+    margin-bottom: 10px;
+}
+
+.insights-header p {
+    font-size: 1.2rem;
+    color: #FF69B4;
+    text-shadow: 0 0 5px #FFB6C1;
+}
+
+.insights-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+    margin-top: 30px;
+}
+
+.insight-card {
+    background: rgba(255, 255, 255, 0.95);
+    border: 3px solid #32CD32;
+    border-radius: 15px;
+    padding: 25px;
+    text-align: center;
+    box-shadow: 
+        0 0 20px rgba(50, 205, 50, 0.3),
+        inset 0 2px 10px rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.insight-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, 
+        rgba(152, 251, 152, 0.1) 0%, 
+        rgba(50, 205, 50, 0.1) 50%, 
+        rgba(152, 251, 152, 0.1) 100%);
+    z-index: -1;
+}
+
+.insight-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 
+        0 0 30px rgba(50, 205, 50, 0.5),
+        inset 0 2px 15px rgba(255, 255, 255, 0.2);
+}
+
+.card-icon {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    filter: drop-shadow(0 0 10px rgba(50, 205, 50, 0.5));
+}
+
+.insight-card h3 {
+    font-size: 1.4rem;
+    color: #228B22;
+    margin-bottom: 15px;
+    text-shadow: 0 0 5px #98FB98;
+}
+
+.stat-value {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #006400;
+    text-shadow: 0 0 10px #98FB98;
+    margin-bottom: 8px;
+}
+
+.stat-label {
+    font-size: 1rem;
+    color: #32CD32;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.improvement-tips, .shot-breakdown, .movement-stats, .tactics-breakdown {
+    text-align: left;
+    font-size: 0.95rem;
+    color: #2F4F2F;
+}
+
+.improvement-tips p {
+    margin: 5px 0;
+    padding-left: 10px;
+    border-left: 3px solid #98FB98;
+}
+
+.shot-stat, .tactic-stat {
+    display: flex;
+    justify-content: space-between;
+    margin: 8px 0;
+    padding: 5px 0;
+    border-bottom: 1px solid rgba(50, 205, 50, 0.2);
+}
+
+.shot-stat span:last-child, .tactic-stat span:last-child {
+    font-weight: bold;
+    color: #006400;
+}
+
+/* Visual Analysis Section */
+.visual-analysis {
+    margin: 60px auto;
+    max-width: 1400px;
+    padding: 0 20px;
+}
+
+.analysis-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.analysis-header h2 {
+    font-size: 2.5rem;
+    color: #228B22;
+    text-shadow: 0 0 10px #98FB98;
+    margin-bottom: 10px;
+}
+
+.analysis-header p {
+    font-size: 1.2rem;
+    color: #FF69B4;
+    text-shadow: 0 0 5px #FFB6C1;
+}
+
+.graphics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 30px;
+    margin-top: 30px;
+}
+
+.graphic-panel {
+    background: rgba(255, 255, 255, 0.95);
+    border: 3px solid #32CD32;
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 
+        0 0 20px rgba(50, 205, 50, 0.3),
+        inset 0 2px 10px rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+.graphic-panel:hover {
+    transform: translateY(-5px);
+    box-shadow: 
+        0 0 30px rgba(50, 205, 50, 0.5),
+        inset 0 2px 15px rgba(255, 255, 255, 0.2);
+}
+
+.graphic-panel h3 {
+    font-size: 1.3rem;
+    color: #228B22;
+    margin-bottom: 15px;
+    text-shadow: 0 0 5px #98FB98;
+}
+
+.graphic-wrapper {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    margin-bottom: 15px;
+}
+
+.analysis-graphic {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.analysis-graphic:hover {
+    transform: scale(1.05);
+}
+
+.graphic-description {
+    font-size: 0.9rem;
+    color: #2F4F2F;
+    font-style: italic;
+}
+
+/* Heatmaps Section */
+.heatmaps-section {
+    margin: 60px auto;
+    max-width: 1400px;
+    padding: 0 20px;
+}
+
+.heatmaps-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.heatmaps-header h2 {
+    font-size: 2.5rem;
+    color: #228B22;
+    text-shadow: 0 0 10px #98FB98;
+    margin-bottom: 10px;
+}
+
+.heatmaps-header p {
+    font-size: 1.2rem;
+    color: #FF69B4;
+    text-shadow: 0 0 5px #FFB6C1;
+}
+
+.heatmaps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 30px;
+}
+
+.heatmap-panel {
+    background: rgba(255, 255, 255, 0.95);
+    border: 3px solid #32CD32;
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 
+        0 0 20px rgba(50, 205, 50, 0.3),
+        inset 0 2px 10px rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+.heatmap-panel:hover {
+    transform: translateY(-5px);
+    box-shadow: 
+        0 0 30px rgba(50, 205, 50, 0.5),
+        inset 0 2px 15px rgba(255, 255, 255, 0.2);
+}
+
+.heatmap-panel h3 {
+    font-size: 1.3rem;
+    color: #228B22;
+    margin-bottom: 15px;
+    text-shadow: 0 0 5px #98FB98;
+}
+
+.heatmap-wrapper {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.heatmap-graphic {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.heatmap-graphic:hover {
+    transform: scale(1.1);
+}
+
+/* Recommendations Section */
+.recommendations-section {
+    margin: 60px auto;
+    max-width: 1200px;
+    padding: 0 20px;
+}
+
+.recommendations-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.recommendations-header h2 {
+    font-size: 2.5rem;
+    color: #228B22;
+    text-shadow: 0 0 10px #98FB98;
+    margin-bottom: 10px;
+}
+
+.recommendations-header p {
+    font-size: 1.2rem;
+    color: #FF69B4;
+    text-shadow: 0 0 5px #FFB6C1;
+}
+
+.recommendations-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+    margin-top: 30px;
+}
+
+.recommendation-card {
+    background: rgba(255, 255, 255, 0.95);
+    border: 3px solid #32CD32;
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 
+        0 0 20px rgba(50, 205, 50, 0.3),
+        inset 0 2px 10px rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+.recommendation-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 
+        0 0 30px rgba(50, 205, 50, 0.5),
+        inset 0 2px 15px rgba(255, 255, 255, 0.2);
+}
+
+.rec-icon {
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 15px;
+    filter: drop-shadow(0 0 10px rgba(50, 205, 50, 0.5));
+}
+
+.recommendation-card h3 {
+    font-size: 1.4rem;
+    color: #228B22;
+    text-align: center;
+    margin-bottom: 20px;
+    text-shadow: 0 0 5px #98FB98;
+}
+
+.recommendation-card ul {
+    list-style: none;
+    padding: 0;
+}
+
+.recommendation-card li {
+    color: #2F4F2F;
+    margin: 10px 0;
+    padding: 8px 0 8px 20px;
+    border-left: 3px solid #98FB98;
+    position: relative;
+}
+
+.recommendation-card li::before {
+    content: '🌱';
+    position: absolute;
+    left: -8px;
+    top: 8px;
+}
+
+/* Technical Section */
+.technical-section {
+    margin: 60px auto;
+    max-width: 1200px;
+    padding: 0 20px;
+}
+
+.tech-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.tech-header h2 {
+    font-size: 2.5rem;
+    color: #228B22;
+    text-shadow: 0 0 10px #98FB98;
+    margin-bottom: 10px;
+}
+
+.tech-header p {
+    font-size: 1.2rem;
+    color: #FF69B4;
+    text-shadow: 0 0 5px #FFB6C1;
+}
+
+.tech-stats {
+    background: rgba(255, 255, 255, 0.95);
+    border: 3px solid #32CD32;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 
+        0 0 20px rgba(50, 205, 50, 0.3),
+        inset 0 2px 10px rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.tech-stat {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background: rgba(152, 251, 152, 0.1);
+    border-radius: 8px;
+    border-left: 4px solid #32CD32;
+}
+
+.tech-label {
+    color: #2F4F2F;
+    font-weight: bold;
+    font-size: 0.95rem;
+}
+
+.tech-value {
+    color: #006400;
+    font-weight: bold;
+    font-size: 1.1rem;
+    text-shadow: 0 0 5px #98FB98;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .video-container {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .graphics-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .heatmaps-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .insights-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .insights-grid.compact {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+    
+    .preview-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+    
+    .preview-graphic {
+        height: 120px;
+    }
+    
+    .arcade-continue-btn, .arcade-close-btn {
+        font-size: 0.9rem;
+        padding: 12px 20px;
+    }
+    
+    .continue-hint {
+        font-size: 0.8rem;
+    }
+    
+    .preview-header h2 {
+        font-size: 1.5rem;
+    }
+    
+    .recommendations-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .tech-stats {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .back-btn {
+        font-size: 0.9rem;
+        padding: 8px 15px;
+    }
+    
+    .video-header h2,
+    .insights-header h2,
+    .analysis-header h2,
+    .heatmaps-header h2,
+    .recommendations-header h2,
+    .tech-header h2 {
+        font-size: 2rem;
+    }
+    
+    .title {
+        font-size: 2.5rem;
+        letter-spacing: 4px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 10px 0;
+    }
+    
+    .video-comparison,
+    .insights-section,
+    .visual-analysis,
+    .heatmaps-section,
+    .recommendations-section,
+    .technical-section,
+    .analysis-preview {
+        margin: 30px auto;
+        padding: 0 10px;
+    }
+    
+    .insights-grid.compact {
+        grid-template-columns: 1fr;
+    }
+    
+    .preview-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .arcade-continue-btn, .arcade-close-btn {
+        font-size: 0.8rem;
+        padding: 10px 15px;
+        width: 90%;
+        margin: 0 auto;
+        display: block;
+    }
+    
+    .title {
+        font-size: 2rem;
+        letter-spacing: 2px;
+    }
+    
+    .video-header h2,
+    .insights-header h2,
+    .analysis-header h2,
+    .heatmaps-header h2,
+    .recommendations-header h2,
+    .tech-header h2,
+    .preview-header h2 {
+        font-size: 1.8rem;
+    }
+    
+    .stat-value {
+        font-size: 2rem;
+    }
+    
+    .card-icon {
+        font-size: 2.5rem;
+    }
+}
+
+/* Video Error Handling */
+.video-error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 200px;
+    background: rgba(255, 182, 193, 0.2);
+    border: 2px dashed #DC143C;
+    border-radius: 10px;
+    color: #DC143C;
+    font-family: 'Minecraft', monospace;
+    text-align: center;
+}
+
+.video-error p {
+    margin: 5px 0;
+    font-size: 1rem;
+}
+
+/* Sync Button Styling */
+.sync-btn:hover {
+    background: rgba(152, 251, 152, 1) !important;
+    box-shadow: 0 0 15px #98FB98 !important;
+    transform: translateY(-2px) !important;
+}
+
+/* Loading animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.insight-card,
+.graphic-panel,
+.heatmap-panel,
+.recommendation-card {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.insight-card:nth-child(1) { animation-delay: 0.1s; }
+.insight-card:nth-child(2) { animation-delay: 0.2s; }
+.insight-card:nth-child(3) { animation-delay: 0.3s; }
+.insight-card:nth-child(4) { animation-delay: 0.4s; }
+
+.graphic-panel:nth-child(1) { animation-delay: 0.1s; }
+.graphic-panel:nth-child(2) { animation-delay: 0.2s; }
+.graphic-panel:nth-child(3) { animation-delay: 0.3s; }
+.graphic-panel:nth-child(4) { animation-delay: 0.4s; }
+
+/* Enhanced Responsive Design for Improved Layout */
+@media (max-width: 768px) {
+    .quick-stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+    
+    .stat-box {
+        padding: 10px;
+        flex-direction: column;
+        text-align: center;
+        gap: 8px;
+    }
+    
+    .analysis-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .analysis-panel.large,
+    .analysis-panel.medium {
+        grid-column: span 1;
+    }
+}
+
+@media (min-width: 1200px) {
+    .analysis-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    
+    .analysis-panel.large {
+        grid-column: span 2;
+    }
+    
+    .quick-stats-grid {
+        grid-template-columns: repeat(6, 1fr);
+    }
+}
+
+/* Compact spacing improvements */
+.container {
+    padding: 15px 0;
+}
+
+section {
+    margin: 25px auto;
+}
+
+.enhanced-overview {
+    margin: 20px auto;
+}
+
+.comprehensive-analysis {
+    margin: 25px auto;
+}
