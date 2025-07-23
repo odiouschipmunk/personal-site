@@ -23,6 +23,9 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('Cleared corrupted music settings');
     }
     
+    // Force normal volume setting
+    localStorage.setItem('musicVolume', '0.7');
+    
     initializePersistentMusic();
     initializeAvatar();
     addKeyboardListeners();
@@ -49,15 +52,20 @@ function initializePersistentMusic() {
     // Load saved music state
     const savedPosition = localStorage.getItem('musicPosition');
     const savedMutedState = localStorage.getItem('musicMuted');
-    const savedVolume = localStorage.getItem('musicVolume') || '0.7';
+    const savedVolume = localStorage.getItem('musicVolume') || '1.0';
     const savedPlayState = localStorage.getItem('musicPlaying');
     
     console.log('Initializing music - Saved muted state:', savedMutedState, 'Saved volume:', savedVolume, 'Was playing:', savedPlayState);
     
     // Set up initial state
     isMuted = savedMutedState === 'true';
-    music.volume = isMuted ? 0 : parseFloat(savedVolume);
+    music.volume = isMuted ? 0 : 0.7; // Use 0.7 as normal volume when not muted
     updateMuteUI(isMuted);
+    
+    // If muted, ensure music is paused
+    if (isMuted) {
+        music.pause();
+    }
     
     // Enhanced music restoration
     const tryPlayMusic = () => {
@@ -154,7 +162,7 @@ function saveMusicState() {
         localStorage.setItem('musicMuted', isMuted.toString());
         localStorage.setItem('musicPlaying', music.paused ? 'false' : 'true');
         if (music.volume > 0) {
-            localStorage.setItem('musicVolume', music.volume.toString());
+            localStorage.setItem('musicVolume', '0.7'); // Always save normal volume
         }
         console.log('Saving music state - Position:', music.currentTime, 'Muted:', isMuted, 'Volume:', music.volume, 'Playing:', !music.paused);
     }
@@ -189,7 +197,7 @@ function toggleMusic() {
     if (isMuted) {
         // Unmute: restore volume and play
         const savedVolume = localStorage.getItem('musicVolume') || '0.7';
-        music.volume = parseFloat(savedVolume);
+        music.volume = 0.7; // Use 0.7 as normal volume when unmuting
         isMuted = false;
         
         // Ensure music is playing
@@ -217,17 +225,18 @@ function toggleMusic() {
         
         console.log('Music unmuted, volume:', music.volume, 'playing:', !music.paused);
     } else {
-        // Mute: save current volume and set to 0
+        // Mute: pause the music completely
         if (music.volume > 0) {
-            localStorage.setItem('musicVolume', music.volume.toString());
+            localStorage.setItem('musicVolume', '0.7'); // Always save normal volume
         }
         music.volume = 0;
+        music.pause(); // Actually pause the music when muted
         isMuted = true;
         localStorage.setItem('musicPlaying', 'false');
         
         updateMuteUI(true);
         
-        console.log('Music muted, volume:', music.volume);
+        console.log('Music muted and paused, volume:', music.volume);
     }
     
     // Save the muted state
@@ -299,6 +308,12 @@ function navigateToPage(page) {
             window.location.href = 'credits.html';
         } else if (page === 'squash') {
             window.location.href = 'squash-analysis.html';
+        } else if (page === 'manual') {
+            window.location.href = 'manual.html';
+        } else if (page === 'contact') {
+            window.location.href = 'contact.html';
+        } else if (page === 'projects') {
+            window.location.href = 'projects.html';
         } else {
             window.location.href = '404.html';
         }
@@ -307,6 +322,11 @@ function navigateToPage(page) {
 
 // Sound effects
 function playButtonSound() {
+    // Don't play sound effects if muted
+    if (isMuted) {
+        return;
+    }
+    
     // Create a simple beep sound using Web Audio API
     try {
         const audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -319,7 +339,7 @@ function playButtonSound() {
         oscillator.frequency.value = 800;
         oscillator.type = 'square';
         
-        gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+        gainNode.gain.setValueAtTime(0.7, audioContext.currentTime); // Use 0.7 volume for sound effects
         gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
         
         oscillator.start(audioContext.currentTime);

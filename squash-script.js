@@ -433,11 +433,11 @@ function initializePersistentMusic() {
     // Load saved music state
     const savedPosition = localStorage.getItem('musicPosition');
     const savedMutedState = localStorage.getItem('musicMuted');
-    const savedVolume = localStorage.getItem('musicVolume') || '0.7';
+    const savedVolume = localStorage.getItem('musicVolume') || '1.0';
     
     // Set up initial state
     window.isMuted = savedMutedState === 'true';
-    music.volume = window.isMuted ? 0 : parseFloat(savedVolume);
+    music.volume = window.isMuted ? 0 : 1.0; // Always max volume when not muted
     updateMuteUI(window.isMuted);
     
     // Restore position
@@ -464,7 +464,7 @@ function toggleMusic() {
     if (window.isMuted) {
         // Unmute
         const savedVolume = localStorage.getItem('musicVolume') || '0.7';
-        music.volume = parseFloat(savedVolume);
+        music.volume = 0.7; // Use 0.7 as normal volume when unmuting
         window.isMuted = false;
         
         if (music.paused) {
@@ -475,7 +475,7 @@ function toggleMusic() {
     } else {
         // Mute
         if (music.volume > 0) {
-            localStorage.setItem('musicVolume', music.volume.toString());
+            localStorage.setItem('musicVolume', '0.7'); // Always save normal volume
         }
         music.volume = 0;
         window.isMuted = true;
@@ -605,3 +605,122 @@ window.addEventListener('load', function() {
         });
     });
 });
+
+// Function to handle video sharing through Google Drive
+function openVideoShare() {
+    // Play button sound effect if available
+    if (typeof playButtonSound === 'function') {
+        playButtonSound();
+    }
+    
+    // Create and show modal for video sharing instructions
+    const modal = document.createElement('div');
+    modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.8);
+        z-index: 1000;
+        backdrop-filter: blur(5px);
+        overflow: auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        box-sizing: border-box;
+    `;
+    
+    const modalContent = document.createElement('div');
+    modalContent.style.cssText = `
+        background: linear-gradient(45deg, #2a2a2a, #4a4a4a);
+        border: 3px solid #FF1493;
+        border-radius: 15px;
+        padding: 30px;
+        max-width: 500px;
+        width: 100%;
+        max-height: calc(100vh - 40px);
+        text-align: center;
+        box-shadow: 0 0 30px rgba(255, 20, 147, 0.5);
+        color: white;
+        font-family: 'Minecraft', monospace;
+        overflow-y: auto;
+        position: relative;
+        margin: auto;
+    `;
+    
+    modalContent.innerHTML = `
+        <h2 style="color: #FF1493; margin-bottom: 20px; text-shadow: 0 0 10px #FFB6C1;">
+            📤 Share Your Squash Video
+        </h2>
+        <p style="margin-bottom: 20px; line-height: 1.6;">
+            Want your squash game analyzed by our AI coach? 
+            <br><br>
+            Click the button below to open our shared Google Drive folder where you can upload your squash match video directly!
+            <br><br>
+            <strong style="color: #98FB98;">Just drag and drop your video file into the folder.</strong>
+        </p>
+        <div style="margin: 20px 0;">
+            <button onclick="window.open('https://drive.google.com/drive/folders/1ba-0fVP9RzHlqTBf16gIJt_4Xp9qIuV1?usp=sharing', '_blank')" 
+                    style="
+                        background: linear-gradient(45deg, #FF1493, #FF69B4);
+                        color: white;
+                        border: none;
+                        padding: 12px 24px;
+                        border-radius: 8px;
+                        cursor: pointer;
+                        font-family: 'Minecraft', monospace;
+                        font-size: 1rem;
+                        margin: 10px;
+                        transition: all 0.3s ease;
+                        box-shadow: 0 0 15px rgba(255, 20, 147, 0.3);
+                    "
+                    onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 0 20px rgba(255, 20, 147, 0.6)'"
+                    onmouseout="this.style.transform='translateY(0px)'; this.style.boxShadow='0 0 15px rgba(255, 20, 147, 0.3)'">
+                🌐 Open Shared Folder
+            </button>
+            <br>
+            <button onclick="this.parentElement.parentElement.parentElement.remove()" 
+                    style="
+                        background: linear-gradient(45deg, #32CD32, #98FB98);
+                        color: #228B22;
+                        border: none;
+                        padding: 8px 16px;
+                        border-radius: 8px;
+                        cursor: pointer;
+                        font-family: 'Minecraft', monospace;
+                        font-size: 0.9rem;
+                        margin: 10px;
+                        transition: all 0.3s ease;
+                        box-shadow: 0 0 15px rgba(50, 205, 50, 0.3);
+                    "
+                    onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 0 20px rgba(50, 205, 50, 0.6)'"
+                    onmouseout="this.style.transform='translateY(0px)'; this.style.boxShadow='0 0 15px rgba(50, 205, 50, 0.3)'">
+                ❌ Close
+            </button>
+        </div>
+        <p style="font-size: 0.8rem; color: #FFB6C1; margin-top: 15px;">
+            💡 Tip: Simply upload your video file directly to the shared folder - no need to share anything!
+        </p>
+    `;
+    
+    modal.appendChild(modalContent);
+    document.body.appendChild(modal);
+    
+    // Close modal when clicking outside
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            modal.remove();
+        }
+    });
+    
+    // Close modal with Escape key
+    const handleEscape = function(e) {
+        if (e.key === 'Escape') {
+            modal.remove();
+            document.removeEventListener('keydown', handleEscape);
+        }
+    };
+    document.addEventListener('keydown', handleEscape);
+}

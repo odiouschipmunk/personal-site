@@ -1,0 +1,471 @@
+/* Undertale-style Manual Page Styles */
+
+@font-face {
+    font-family: 'Minecraft';
+    src: url('assets/Minecraft.ttf') format('truetype');
+}
+
+.undertale-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, 
+        #87CEEB 0%, 
+        #98FB98 25%, 
+        #FFB6C1 50%, 
+        #FFFFE0 75%, 
+        #E6E6FA 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    font-family: 'Minecraft', monospace;
+    color: #2F4F2F;
+    position: relative;
+    overflow: hidden;
+    animation: backgroundShift 20s ease-in-out infinite;
+}
+
+.undertale-container::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('assets/stardew valley.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    opacity: 0.3;
+    z-index: -2;
+    filter: blur(1px) saturate(1.3) hue-rotate(20deg);
+}
+
+@keyframes backgroundShift {
+    0%, 100% { 
+        filter: hue-rotate(0deg) brightness(1) saturate(1);
+    }
+    25% {
+        filter: hue-rotate(10deg) brightness(1.1) saturate(1.2);
+    }
+    50% {
+        filter: hue-rotate(-5deg) brightness(0.9) saturate(1.1);
+    }
+    75% {
+        filter: hue-rotate(15deg) brightness(1.05) saturate(1.3);
+    }
+}
+
+/* Character Sprite */
+.character-section {
+    margin-bottom: 40px;
+    animation: float 3s ease-in-out infinite;
+}
+
+.character-sprite {
+    width: 120px;
+    height: 120px;
+    image-rendering: pixelated;
+    filter: brightness(1.1);
+    transition: transform 0.3s ease;
+    border: 3px solid #32CD32;
+    border-radius: 50%;
+    box-shadow: 
+        0 0 20px #98FB98,
+        inset 0 0 20px rgba(152, 251, 152, 0.2);
+}
+
+.character-sprite:hover {
+    transform: scale(1.05);
+    box-shadow: 
+        0 0 30px #98FB98,
+        inset 0 0 30px rgba(152, 251, 152, 0.3);
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+/* Dialogue Container */
+.dialogue-container {
+    width: 90%;
+    max-width: 600px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 4px solid #32CD32;
+    border-radius: 12px;
+    position: relative;
+    box-shadow: 
+        0 0 20px rgba(50, 205, 50, 0.4),
+        inset 0 2px 10px rgba(255, 255, 255, 0.8);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+}
+
+.dialogue-box {
+    background: transparent;
+    padding: 20px;
+    border-bottom: 2px solid #32CD32;
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+}
+
+.dialogue-text {
+    font-size: 18px;
+    line-height: 1.4;
+    letter-spacing: 1px;
+    color: #2F4F2F;
+    font-family: 'Minecraft', monospace;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+.dialogue-marker {
+    color: #FF69B4;
+    font-weight: bold;
+    margin-right: 8px;
+    text-shadow: 0 0 5px #FFB6C1;
+    animation: markerGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes markerGlow {
+    from { text-shadow: 0 0 5px #FFB6C1; }
+    to { text-shadow: 0 0 15px #FFB6C1, 0 0 25px #FF69B4; }
+}
+
+#textContent {
+    animation: typewriter 2s steps(30, end), textGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes typewriter {
+    from { 
+        width: 0;
+        opacity: 0;
+    }
+    to { 
+        width: 100%;
+        opacity: 1;
+    }
+}
+
+@keyframes textGlow {
+    from { 
+        text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+    }
+    to { 
+        text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8), 0 0 10px rgba(152, 251, 152, 0.6);
+    }
+}
+
+/* Stats Bar */
+.stats-bar {
+    background: rgba(255, 255, 255, 0.7);
+    padding: 10px 20px;
+    border-bottom: 2px solid #32CD32;
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: #2F4F2F;
+    font-family: 'Minecraft', monospace;
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.8);
+}
+
+.hp-bar {
+    color: #FF69B4;
+    letter-spacing: 1px;
+    text-shadow: 0 0 5px #FFB6C1;
+    animation: hpPulse 2s ease-in-out infinite alternate;
+}
+
+@keyframes hpPulse {
+    from { text-shadow: 0 0 5px #FFB6C1; }
+    to { text-shadow: 0 0 10px #FFB6C1, 0 0 15px #FF69B4; }
+}
+
+/* Action Buttons */
+.action-buttons {
+    background: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+}
+
+.action-btn {
+    background: linear-gradient(45deg, #2a2a2a, #4a4a4a);
+    color: #fff;
+    border: 2px solid #32CD32;
+    padding: 12px 20px;
+    font-family: 'Minecraft', monospace;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+    opacity: 1;
+    transform: translateY(0);
+    box-shadow: 
+        0 0 20px rgba(50, 205, 50, 0.3),
+        inset 0 2px 10px rgba(255, 255, 255, 0.1),
+        inset 0 -2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.action-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(50, 205, 50, 0.1) 45%, 
+        rgba(50, 205, 50, 0.2) 50%, 
+        rgba(50, 205, 50, 0.1) 55%, 
+        transparent 100%);
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
+}
+
+.action-btn:hover::before {
+    transform: translateX(100%);
+}
+
+.action-btn:hover {
+    background: linear-gradient(45deg, #32CD32, #98FB98);
+    color: #2F4F2F;
+    transform: translateY(-2px);
+    box-shadow: 
+        0 0 30px rgba(50, 205, 50, 0.6),
+        inset 0 2px 15px rgba(255, 255, 255, 0.2),
+        inset 0 -2px 15px rgba(0, 0, 0, 0.1);
+}
+
+.action-btn:active {
+    transform: translateY(0);
+    box-shadow: 
+        0 0 20px rgba(50, 205, 50, 0.4),
+        inset 0 2px 10px rgba(255, 255, 255, 0.1);
+}
+
+.action-btn.selected {
+    background: linear-gradient(45deg, #FF69B4, #FFB6C1);
+    color: #2F4F2F;
+    animation: springPulse 1s infinite;
+    border-color: #FF69B4;
+}
+
+.back-btn {
+    grid-column: span 2;
+    background: linear-gradient(45deg, #87CEEB, #98FB98);
+    border-color: #87CEEB;
+    color: #2F4F2F;
+}
+
+.back-btn:hover {
+    background: linear-gradient(45deg, #98FB98, #FFFFE0);
+    color: #2F4F2F;
+}
+
+.btn-icon {
+    font-size: 16px;
+    filter: drop-shadow(0 0 2px currentColor);
+    animation: iconPulse 2s infinite;
+}
+
+@keyframes springPulse {
+    0%, 100% { 
+        box-shadow: 0 0 5px rgba(255, 105, 180, 0.5);
+        transform: scale(1);
+    }
+    50% { 
+        box-shadow: 0 0 20px rgba(255, 105, 180, 0.8);
+        transform: scale(1.02);
+    }
+}
+
+@keyframes iconPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .dialogue-container {
+        width: 95%;
+    }
+    
+    .dialogue-text {
+        font-size: 16px;
+    }
+    
+    .action-buttons {
+        grid-template-columns: 1fr;
+    }
+    
+    .back-btn {
+        grid-column: span 1;
+    }
+    
+    .character-sprite {
+        width: 100px;
+    }
+}
+
+/* Sound effect animation */
+.btn-sound-effect {
+    animation: buttonPress 0.3s ease;
+}
+
+@keyframes buttonPress {
+    0% { transform: scale(1); }
+    50% { transform: scale(0.95); }
+    100% { transform: scale(1); }
+}
+
+/* Text animation for dialogue changes */
+.text-fade-out {
+    animation: fadeOut 0.3s ease-out;
+}
+
+.text-fade-in {
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Spring Effects for Manual Page */
+.undertale-container::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+    background-image: 
+        radial-gradient(circle at 10% 20%, rgba(255, 182, 193, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(152, 251, 152, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(255, 255, 224, 0.3) 0%, transparent 50%);
+    animation: springGlow 8s ease-in-out infinite;
+}
+
+@keyframes springGlow {
+    0%, 100% { 
+        opacity: 0.3;
+        transform: scale(1);
+    }
+    50% { 
+        opacity: 0.6;
+        transform: scale(1.1);
+    }
+}
+
+/* Floating Spring Elements */
+.spring-petals {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.floating-petal {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: #FFB6C1;
+    border-radius: 50% 0 50% 50%;
+    opacity: 0.6;
+    animation: float-and-fall 12s infinite linear;
+}
+
+.petal-1 {
+    left: 15%;
+    animation-delay: 0s;
+    background: #FFB6C1;
+    transform: rotate(45deg);
+}
+
+.petal-2 {
+    left: 25%;
+    animation-delay: 2s;
+    background: #FFC0CB;
+    transform: rotate(90deg);
+}
+
+.petal-3 {
+    left: 45%;
+    animation-delay: 4s;
+    background: #98FB98;
+    transform: rotate(135deg);
+}
+
+.petal-4 {
+    left: 65%;
+    animation-delay: 6s;
+    background: #FFFFE0;
+    transform: rotate(180deg);
+}
+
+.petal-5 {
+    left: 85%;
+    animation-delay: 8s;
+    background: #E6E6FA;
+    transform: rotate(225deg);
+}
+
+@keyframes float-and-fall {
+    0% {
+        top: -20px;
+        transform: rotate(0deg) translateX(0px);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.6;
+    }
+    25% {
+        transform: rotate(90deg) translateX(15px);
+    }
+    50% {
+        transform: rotate(180deg) translateX(-10px);
+    }
+    75% {
+        transform: rotate(270deg) translateX(12px);
+    }
+    90% {
+        opacity: 0.6;
+    }
+    100% {
+        top: 110vh;
+        transform: rotate(360deg) translateX(0px);
+        opacity: 0;
+    }
+}

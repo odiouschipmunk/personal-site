@@ -39,6 +39,47 @@ body {
     transform: translateY(-2px);
 }
 
+/* Share Video Section */
+.share-video-section {
+    text-align: center;
+    margin: 30px auto;
+    padding: 20px;
+}
+
+.share-video-btn-center {
+    font-family: 'Minecraft', monospace;
+    font-size: 1.2rem;
+    padding: 15px 30px;
+    background: linear-gradient(45deg, rgba(255, 20, 147, 0.9), rgba(255, 105, 180, 0.9));
+    color: white;
+    border: 3px solid #FF1493;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+    box-shadow: 
+        0 0 20px rgba(255, 20, 147, 0.4),
+        inset 0 2px 10px rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.share-video-btn-center:hover {
+    background: linear-gradient(45deg, rgba(255, 20, 147, 1), rgba(255, 105, 180, 1));
+    box-shadow: 
+        0 0 30px rgba(255, 20, 147, 0.7),
+        inset 0 2px 15px rgba(255, 255, 255, 0.2);
+    transform: translateY(-3px) scale(1.05);
+    border-color: #FFB6C1;
+}
+
+/* Remove old share button styles */
+.share-video-btn {
+    display: none;
+}
+
 /* Video Comparison Section */
 .video-comparison {
     margin: 40px auto;
@@ -1049,6 +1090,16 @@ body {
     .back-btn {
         font-size: 0.9rem;
         padding: 8px 15px;
+    }
+    
+    .share-video-section {
+        margin: 20px auto;
+        padding: 15px;
+    }
+    
+    .share-video-btn-center {
+        font-size: 1rem;
+        padding: 12px 24px;
     }
     
     .video-header h2,
